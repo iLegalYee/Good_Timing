@@ -1,5 +1,5 @@
 package edu.fsu.cs.goodtiming;
 
 public class test {
-    //This is a test
+    //This is a test class
 }
