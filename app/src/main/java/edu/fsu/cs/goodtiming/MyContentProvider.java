@@ -10,27 +10,43 @@ import android.net.Uri;
 
 public class MyContentProvider extends ContentProvider {
     public final static String DBNAME = "GOODTIMINGDB";
-    public final static String TABLE_NAMESTABLE = "EmployeeTable";
-    public final static String COLUMN_EMPID = "empid";
-    public final static String COLUMN_NAME = "name";
-    public final static String COLUMN_EMAIL = "email";
-    public final static String COLUMN_GENDER = "gender";
-    public final static String COLUMN_CODE = "accesscode";
-    public final static String COLUMN_DEPARTMENT = "department";
-
-    public final static String AUTHORITY = "edu.fsu.cs.hw5.provider";
-    public final static Uri CONTENT_URI = Uri.parse(
-            "content://edu.fsu.cs.hw5.provider/" + TABLE_NAMESTABLE);
     public final static int DBVERSION = 1;
-    public final static String SQL_CREATE_MAIN =
-            "CREATE TABLE IF NOT EXISTS " + TABLE_NAMESTABLE + " ( " +
+    public final static String AUTHORITY = "edu.fsu.cs.goodtiming.provider";
+
+    public final static String TABLE_EVENTS = "EventsTable";
+    public final static String COLUMN_EVENTS_NAME = "Name";
+    public final static String COLUMN_EVENTS_DESCRIPTION = "Description";
+    public final static String COLUMN_EVENTS_TIME = "Time";
+    public final static String COLUMN_EVENTS_DATE = "Date";
+    public final static String COLUMN_EVENTS_REPEAT = "Repeatability";
+    public final static String COLUMN_EVENTS_LOCATION = "Location";
+
+    public final static Uri EVENTS_CONTENT_URI = Uri.parse(
+            "content://edu.fsu.cs.goodtiming.provider/" + TABLE_EVENTS);
+    public final static String EVENTS_SQL_CREATE_MAIN =
+            "CREATE TABLE IF NOT EXISTS " + TABLE_EVENTS + " ( " +
                     "_ID INTEGER PRIMARY KEY, " +
-                    COLUMN_EMPID + " TEXT, " +
-                    COLUMN_NAME + " TEXT, " +
-                    COLUMN_EMAIL + " TEXT, " +
-                    COLUMN_GENDER + " TEXT, " +
-                    COLUMN_CODE + " TEXT, " +
-                    COLUMN_DEPARTMENT + " TEXT)";
+                    COLUMN_EVENTS_NAME + " TEXT, " +
+                    COLUMN_EVENTS_DESCRIPTION + " TEXT, " +
+                    COLUMN_EVENTS_TIME + " TEXT, " +
+                    COLUMN_EVENTS_DATE + " TEXT, " +
+                    COLUMN_EVENTS_REPEAT + " TEXT, " +
+                    COLUMN_EVENTS_LOCATION + " TEXT)";
+
+    public final static String TABLE_TASKS = "TasksTable";
+    public final static String COLUMN_TASKS_NAME = "Name";
+    public final static String COLUMN_TASKS_DESCRIPTION = "Description";
+    public final static String COLUMN_TASKS_DEADLINE = "Deadline";
+
+    public final static Uri TASKS_CONTENT_URI = Uri.parse(
+            "content://edu.fsu.cs.goodtiming.provider/" + TABLE_TASKS);
+    public final static String TASKS_SQL_CREATE_MAIN =
+            "CREATE TABLE IF NOT EXISTS " + TABLE_TASKS + " ( " +
+                    "_ID INTEGER PRIMARY KEY, " +
+                    COLUMN_TASKS_NAME + " TEXT, " +
+                    COLUMN_TASKS_DESCRIPTION + " TEXT, " +
+                    COLUMN_TASKS_DEADLINE + " TEXT)";
+
     private DatabaseHelper helper;
 
     @Override
@@ -43,37 +59,33 @@ public class MyContentProvider extends ContentProvider {
     // Inserts table entry then returns a URI to it
     @Override
     public Uri insert(Uri uri, ContentValues values) {
-        // Checks that all column values are filled out
-        String empid = values.getAsString(COLUMN_EMPID).trim();
-        String name = values.getAsString(COLUMN_NAME).trim();
-        String email = values.getAsString(COLUMN_EMAIL).trim();
-        String gender = values.getAsString(COLUMN_GENDER).trim();
-        String code = values.getAsString(COLUMN_CODE).trim();
-        String department = values.getAsString(COLUMN_DEPARTMENT).trim();
-        if(empid.equals("") || name.equals("") || email.equals("") || gender.equals("") ||
-                code.equals("") || department.equals(""))
-            return null;
-
-        long id = helper.getWritableDatabase().insert(TABLE_NAMESTABLE, null, values);
-        return Uri.withAppendedPath(CONTENT_URI, "" + id);
+        long id = helper.getWritableDatabase().insert(
+                uri.toString().substring(uri.toString().lastIndexOf("/") + 1),
+                null, values);
+        return Uri.withAppendedPath(uri, "" + id);
     }
 
     @Override
     public int update(Uri uri, ContentValues values, String selection,
                       String[] selectionArgs) {
-        return helper.getWritableDatabase().update(TABLE_NAMESTABLE, values, selection, selectionArgs);
+        return helper.getWritableDatabase().update(
+                uri.toString().substring(uri.toString().lastIndexOf("/") + 1),
+                values, selection, selectionArgs);
     }
 
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
-        return helper.getWritableDatabase().delete(TABLE_NAMESTABLE, selection, selectionArgs);
+        return helper.getWritableDatabase().delete(
+                uri.toString().substring(uri.toString().lastIndexOf("/") + 1),
+                selection, selectionArgs);
     }
 
     @Override
     public Cursor query(Uri uri, String[] projection, String selection,
                         String[] selectionArgs, String sortOrder) {
-        return helper.getReadableDatabase().query(TABLE_NAMESTABLE, projection, selection,
-                selectionArgs, null, null, sortOrder);
+        return helper.getReadableDatabase().query(
+                uri.toString().substring(uri.toString().lastIndexOf("/") + 1),
+                projection, selection, selectionArgs, null, null, sortOrder);
     }
 
     @Override
@@ -90,7 +102,8 @@ public class MyContentProvider extends ContentProvider {
 
         @Override
         public void onCreate(SQLiteDatabase db) {
-            db.execSQL(SQL_CREATE_MAIN);
+            db.execSQL(EVENTS_SQL_CREATE_MAIN);
+            db.execSQL(TASKS_SQL_CREATE_MAIN);
         }
 
         @Override
