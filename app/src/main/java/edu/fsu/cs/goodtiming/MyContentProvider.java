@@ -13,6 +13,7 @@ public class MyContentProvider extends ContentProvider {
     public final static int DBVERSION = 1;
     public final static String AUTHORITY = "edu.fsu.cs.goodtiming.provider";
 
+    // These are the names of the tables and table columns
     public final static String TABLE_EVENTS = "EventsTable";
     public final static String COLUMN_EVENTS_NAME = "Name";
     public final static String COLUMN_EVENTS_DESCRIPTION = "Description";
