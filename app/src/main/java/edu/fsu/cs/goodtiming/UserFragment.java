@@ -26,7 +26,7 @@ public class UserFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View rootView = inflater.inflate(R.layout.fragment_event, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_user, container, false);
 
         // If you want to find a view in here, use rootView.findViewById instead of getActivity().findViewById
 

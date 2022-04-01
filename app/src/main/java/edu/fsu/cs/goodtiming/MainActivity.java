@@ -26,6 +26,8 @@ public class MainActivity extends AppCompatActivity implements
     Button calendar;
     Button user;
 
+    int indexOfShownFragment = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,23 +72,23 @@ public class MainActivity extends AppCompatActivity implements
         Log.d("Inside Main", "ShowEventFragment");
         String tag = EventFragment.class.getCanonicalName();
         FragmentTransaction transaction = fManager.beginTransaction();
-        if(bundle != null && bundle.containsKey("ReShow")) {
+        if(bundle != null && bundle.containsKey("Restart")) {
             if(eventFragment != null)
                 transaction.detach(eventFragment);
             eventFragment = null;
         }
-        if(fManager.findFragmentById(R.id.main_frame) != null) {
-            Log.d("Inside Main", "find is not null");
-                transaction.hide(fManager.findFragmentById(R.id.main_frame));
-        }
+        HideOpenFragment();
         if(eventFragment == null) {
             eventFragment = new EventFragment();
             if (bundle != null)
                 eventFragment.setArguments(bundle);
             transaction.add(R.id.main_frame, eventFragment).commit();
+            indexOfShownFragment = 1;
         }
-        else
+        else {
             transaction.show(eventFragment).commit();
+            indexOfShownFragment = 1;
+        }
     }
 
     @Override
@@ -94,21 +96,23 @@ public class MainActivity extends AppCompatActivity implements
         Log.d("Inside Main", "ShowSessionFragment");
         String tag = SessionFragment.class.getCanonicalName();
         FragmentTransaction transaction = fManager.beginTransaction();
-        if(bundle != null && bundle.containsKey("ReShow")) {
+        if(bundle != null && bundle.containsKey("Restart")) {
             if(sessionFragment != null)
                 transaction.detach(sessionFragment);
             sessionFragment = null;
         }
-        if(fManager.findFragmentById(R.id.main_frame) != null)
-            transaction.hide(fManager.findFragmentById(R.id.main_frame));
+        HideOpenFragment();
         if(sessionFragment == null) {
             sessionFragment = new SessionFragment();
             if (bundle != null)
                 sessionFragment.setArguments(bundle);
             transaction.add(R.id.main_frame, sessionFragment).commit();
+            indexOfShownFragment = 2;
         }
-        else
+        else {
             transaction.show(sessionFragment).commit();
+            indexOfShownFragment = 2;
+        }
     }
 
     @Override
@@ -116,21 +120,24 @@ public class MainActivity extends AppCompatActivity implements
         Log.d("Inside Main", "ShowCalendarFragment");
         String tag = CalendarFragment.class.getCanonicalName();
         FragmentTransaction transaction = fManager.beginTransaction();
-        if(bundle != null && bundle.containsKey("ReShow")) {
+        if(bundle != null && bundle.containsKey("Restart")) {
             if(calendarFragment != null)
                 transaction.detach(calendarFragment);
             calendarFragment = null;
         }
-        if(fManager.findFragmentById(R.id.main_frame) != null)
-            transaction.hide(fManager.findFragmentById(R.id.main_frame));
+        HideOpenFragment();
         if(calendarFragment == null) {
             calendarFragment = new CalendarFragment();
             if (bundle != null)
                 calendarFragment.setArguments(bundle);
             transaction.add(R.id.main_frame, calendarFragment).commit();
+            indexOfShownFragment = 3;
         }
-        else
+        else {
             transaction.show(calendarFragment).commit();
+            indexOfShownFragment = 3;
+        }
+
     }
 
     @Override
@@ -143,15 +150,37 @@ public class MainActivity extends AppCompatActivity implements
                 transaction.detach(userFragment);
             userFragment = null;
         }
-        if(fManager.findFragmentById(R.id.main_frame) != null)
-            transaction.hide(fManager.findFragmentById(R.id.main_frame));
+        HideOpenFragment();
         if(userFragment == null) {
             userFragment = new UserFragment();
             if (bundle != null)
                 userFragment.setArguments(bundle);
             transaction.add(R.id.main_frame, userFragment).commit();
+            indexOfShownFragment = 4;
         }
-        else
+        else {
             transaction.show(userFragment).commit();
+            indexOfShownFragment = 4;
+        }
+    }
+
+    private void HideOpenFragment() {
+        switch(indexOfShownFragment) {
+            case 0:
+                break;
+            case 1:
+                fManager.beginTransaction().hide(eventFragment).commit();
+                break;
+            case 2:
+                fManager.beginTransaction().hide(sessionFragment).commit();
+                break;
+            case 3:
+                fManager.beginTransaction().hide(calendarFragment).commit();
+                break;
+            case 4:
+                fManager.beginTransaction().hide(userFragment).commit();
+                break;
+        }
+
     }
 }
