@@ -2,9 +2,8 @@ package edu.fsu.cs.goodtiming;
 
 import android.content.Context;
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
-
+import androidx.fragment.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +30,13 @@ public class UserFragment extends Fragment {
         // If you want to find a view in here, use rootView.findViewById instead of getActivity().findViewById
 
         return rootView;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState){
+        Fragment childFrag = new User_JournalFragment();
+        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+        transaction.replace(R.id.child_user_fragment_container, childFrag).commit();
     }
 
     // Initializes mListener
