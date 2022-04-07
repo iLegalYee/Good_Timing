@@ -1,14 +1,19 @@
 package edu.fsu.cs.goodtiming;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
 
 public class UserFragment extends Fragment {
+
     private OnUserFragmentInteractionListener mListener;
     private Bundle mBundle;
 
@@ -27,13 +32,24 @@ public class UserFragment extends Fragment {
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_user, container, false);
 
+
+
         // If you want to find a view in here, use rootView.findViewById instead of getActivity().findViewById
+
+        // Button - creates new activity where user can write and store a journal entry when clicked
+        Button addEntry = rootView.findViewById(R.id.new_journalEntry_button);
+        addEntry.setOnClickListener(view -> {
+            int entryID = User_JournalFragment.entries.size();
+            Intent intent = new Intent(getActivity(), User_JournalEntry.class);
+            startActivity(intent);
+        });
 
         return rootView;
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState){
+        //Starts a child fragment where the journal entries are listed
         Fragment childFrag = new User_JournalFragment();
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         transaction.replace(R.id.child_user_fragment_container, childFrag).commit();

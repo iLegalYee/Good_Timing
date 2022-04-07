@@ -12,13 +12,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.GoodTiming">
+        <activity
+            android:name=".User_JournalEntry"
+            android:exported="false" />
+
         <provider
             android:name=".MyContentProvider"
             android:authorities="edu.fsu.cs.goodtiming.provider"
             android:enabled="true"
             android:exported="true"
             android:readPermission="edu.fsu.cs.goodtiming.permission.READ_PERMISSION"
-            android:writePermission="edu.fsu.cs.goodtiming.permsiion.WRITE_PERMISSION"></provider>
+            android:writePermission="edu.fsu.cs.goodtiming.permsiion.WRITE_PERMISSION" />
 
         <activity
             android:name=".MainActivity"

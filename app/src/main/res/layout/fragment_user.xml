@@ -1,46 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".UserFragment">
-
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Inside User Fragment" />
+        android:layout_height="match_parent">
 
+        <TextView
+            android:id="@+id/journal_label_user_fragment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
+            android:layout_marginTop="50dp"
+            android:text="Journal"
+            android:textSize="20dp"
+            />
 
-    <TextView
-        android:id="@+id/journal_label_user_fragment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
-        android:layout_marginEnd="25dp"
-        android:layout_marginTop="50dp"
-        android:text="Journal"
-        android:textSize="20dp"
-        />
+        <Button
+            android:id="@+id/new_journalEntry_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add Entry"
+            android:layout_marginTop="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginEnd="25dp"
+            />
 
-    <FrameLayout
-        android:id="@+id/child_user_fragment_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/journal_label_user_fragment"
-        android:layout_marginStart="25dp"
-        android:layout_marginEnd="25dp"
-        >
+        <FrameLayout
+            android:id="@+id/child_user_fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_below="@id/journal_label_user_fragment"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
+            >
 
-    </FrameLayout>
+        </FrameLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/child_user_fragment_container"
-        android:layout_marginTop="25dp"
-        android:layout_marginStart="25dp"
-        android:textSize="20dp"
-        android:text="Analytics"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/child_user_fragment_container"
+            android:layout_marginTop="25dp"
+            android:layout_marginStart="25dp"
+            android:textSize="20dp"
+            android:text="Analytics"/>
 
-</RelativeLayout>
+    </RelativeLayout>
+</ScrollView>

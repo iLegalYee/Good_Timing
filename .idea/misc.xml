@@ -4,11 +4,13 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/curly/AndroidStudioProjects/Good_Timing/app/src/main/res/layout/activity_main.xml" value="0.2109375" />
+        <entry key="..\:/Users/curly/AndroidStudioProjects/Good_Timing/app/src/main/res/layout/activity_user_journal_entry.xml" value="0.33" />
         <entry key="..\:/Users/curly/AndroidStudioProjects/Good_Timing/app/src/main/res/layout/fragment_calendar.xml" value="0.32447916666666665" />
         <entry key="..\:/Users/curly/AndroidStudioProjects/Good_Timing/app/src/main/res/layout/fragment_event.xml" value="0.32447916666666665" />
         <entry key="..\:/Users/curly/AndroidStudioProjects/Good_Timing/app/src/main/res/layout/fragment_session.xml" value="0.32447916666666665" />
-        <entry key="..\:/Users/curly/AndroidStudioProjects/Good_Timing/app/src/main/res/layout/fragment_user.xml" value="0.32447916666666665" />
+        <entry key="..\:/Users/curly/AndroidStudioProjects/Good_Timing/app/src/main/res/layout/fragment_user.xml" value="0.1" />
         <entry key="..\:/Users/curly/AndroidStudioProjects/Good_Timing/app/src/main/res/layout/fragment_user__journal.xml" value="0.36102564102564105" />
+        <entry key="..\:/Users/curly/AndroidStudioProjects/Good_Timing/app/src/main/res/layout/fragment_user_journal.xml" value="0.25" />
       </map>
     </option>
   </component>
