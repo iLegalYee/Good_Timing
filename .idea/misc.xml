@@ -3,7 +3,6 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-       <!--<entry key="..\:/Users/Edwin Diaz/AndroidStudioProjects/Good_Timing/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />-->
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.19293478260869565" />
         <entry key="app/src/main/res/layout/fragment_calendar.xml" value="0.12916666666666668" />
         <entry key="app/src/main/res/layout/fragment_event.xml" value="0.19293478260869565" />
