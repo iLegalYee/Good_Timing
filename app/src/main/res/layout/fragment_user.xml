@@ -8,13 +8,25 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <ImageButton
+            android:id="@+id/user_settings_button"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="25dp"
+            android:background="#fafafa"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
+            android:src="@drawable/settings" />
+
         <TextView
             android:id="@+id/journal_label_user_fragment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="25dp"
-            android:layout_marginEnd="25dp"
-            android:layout_marginTop="50dp"
+            android:layout_margin="25dp"
+            android:layout_below="@+id/user_settings_button"
             android:text="Journal"
             android:textSize="20dp"
             />
@@ -24,8 +36,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Add Entry"
-            android:layout_marginTop="40dp"
-            android:layout_alignParentRight="true"
+            android:layout_alignBaseline="@id/journal_label_user_fragment"
+            android:layout_toRightOf="@id/journal_label_user_fragment"
             android:layout_marginEnd="25dp"
             />
 

@@ -1,22 +1,17 @@
 package edu.fsu.cs.goodtiming;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.widget.Button;
 import android.widget.EditText;
-
 import java.util.HashSet;
-import java.util.Set;
 
 public class User_JournalEntry extends AppCompatActivity {
     private EditText body;
-    private Button delete;
     private int entryID;
 
     @Override
@@ -61,7 +56,6 @@ public class User_JournalEntry extends AppCompatActivity {
                 // Intentionally empty
             }
         });
-
     }
 
 }
