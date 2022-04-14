@@ -13,6 +13,8 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import edu.fsu.cs.goodtiming.User.UserFragment;
+
 public class MainActivity extends AppCompatActivity implements
         EventFragment.OnEventFragmentInteractionListener,
         SessionFragment.OnSessionFragmentInteractionListener,
