@@ -21,6 +21,8 @@ public class MyContentProvider extends ContentProvider {
     public final static String COLUMN_EVENTS_DATE = "Date";
     public final static String COLUMN_EVENTS_REPEAT = "Repeatability";
     public final static String COLUMN_EVENTS_LOCATION = "Location";
+    public final static String COLUMN_EVENTS_DURATION = "Duration";
+    public final static String COLUMN_EVENTS_IS_SESSION = "Session";
 
     public final static Uri EVENTS_CONTENT_URI = Uri.parse(
             "content://edu.fsu.cs.goodtiming.provider/" + TABLE_EVENTS);
@@ -32,7 +34,10 @@ public class MyContentProvider extends ContentProvider {
                     COLUMN_EVENTS_TIME + " TEXT, " +
                     COLUMN_EVENTS_DATE + " TEXT, " +
                     COLUMN_EVENTS_REPEAT + " TEXT, " +
-                    COLUMN_EVENTS_LOCATION + " TEXT)";
+                    COLUMN_EVENTS_LOCATION + " TEXT, " +
+                    COLUMN_EVENTS_DURATION + " TEXT, " +
+                    COLUMN_EVENTS_IS_SESSION + " TEXT)";
+
 
     public final static String TABLE_TASKS = "TasksTable";
     public final static String COLUMN_TASKS_NAME = "Name";
@@ -47,6 +52,21 @@ public class MyContentProvider extends ContentProvider {
                     COLUMN_TASKS_NAME + " TEXT, " +
                     COLUMN_TASKS_DESCRIPTION + " TEXT, " +
                     COLUMN_TASKS_DEADLINE + " TEXT)";
+
+
+    public final static String TABLE_ANALYTICS = "AnalyticsTable";
+    public final static String COLUMN_ANALYTICS_DATE = "Date";
+    public final static String COLUMN_ANALYTICS_TIME = "Time";
+    public final static String COLUMN_ANALYTICS_NAME = "Name";
+
+    public final static Uri ANALYTICS_CONTENT_URI = Uri.parse(
+            "content://edu.fsu.cs.goodtiming.provider/" + TABLE_ANALYTICS);
+    public final static String ANALYTICS_SQL_CREATE_MAIN =
+            "CREATE TABLE IF NOT EXISTS " + TABLE_ANALYTICS + " ( " +
+                    "_ID INTEGER PRIMARY KEY, " +
+                    COLUMN_ANALYTICS_DATE + " TEXT, " +
+                    COLUMN_ANALYTICS_TIME + " TEXT, " +
+                    COLUMN_ANALYTICS_NAME + " TEXT)";
 
     private DatabaseHelper helper;
 
@@ -105,6 +125,7 @@ public class MyContentProvider extends ContentProvider {
         public void onCreate(SQLiteDatabase db) {
             db.execSQL(EVENTS_SQL_CREATE_MAIN);
             db.execSQL(TASKS_SQL_CREATE_MAIN);
+            db.execSQL(ANALYTICS_SQL_CREATE_MAIN);
         }
 
         @Override
