@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GoodTiming">
         <activity
-            android:name=".User_JournalEntry"
+            android:name=".User.User_JournalEntry"
             android:exported="false" />
 
         <provider

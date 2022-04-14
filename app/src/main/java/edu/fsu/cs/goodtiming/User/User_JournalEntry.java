@@ -1,4 +1,4 @@
-package edu.fsu.cs.goodtiming;
+package edu.fsu.cs.goodtiming.User;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
@@ -9,6 +9,8 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
 import java.util.HashSet;
+
+import edu.fsu.cs.goodtiming.R;
 
 public class User_JournalEntry extends AppCompatActivity {
     private EditText body;
