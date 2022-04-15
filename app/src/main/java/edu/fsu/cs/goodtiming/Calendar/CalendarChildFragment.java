@@ -1,4 +1,4 @@
-package edu.fsu.cs.goodtiming;
+package edu.fsu.cs.goodtiming.Calendar;
 
 import android.os.Bundle;
 
@@ -8,8 +8,10 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.CalendarView;
+
+import edu.fsu.cs.goodtiming.Calendar.CalendarFragment;
+import edu.fsu.cs.goodtiming.R;
 
 public class CalendarChildFragment extends Fragment {
 
@@ -39,9 +41,9 @@ public class CalendarChildFragment extends Fragment {
             public void onSelectedDayChange(@NonNull CalendarView calendarView, int i, int i1, int i2) {
 
                     Bundle dateBundle = new Bundle();
-                    dateBundle.putString("year", "" + i);
-                    dateBundle.putString("month", "" + (i1+ 1));
-                    dateBundle.putString("day", "" + i2);
+                    dateBundle.putInt("year", i);
+                    dateBundle.putInt("month", (i1+ 1));
+                    dateBundle.putInt("day", i2);
                     ((CalendarFragment) getParentFragment()).ShowDayChild(dateBundle);
 
             }
