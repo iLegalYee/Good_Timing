@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Calendar.ShowEventChildFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/show_event_header"
+            android:text="Details About The Event" />
+
+        <TextView
+            android:id="@+id/show_event_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/show_event_header"
+            android:text="Title is empty" />
+
+        <TextView
+            android:id="@+id/show_event_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/show_event_title"
+            android:text="Description is empty" />
+
+        <TextView
+            android:id="@+id/show_event_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/show_event_description"
+            android:text="Time is empty" />
+
+        <TextView
+            android:id="@+id/show_event_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/show_event_time"
+            android:text="Date is empty" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/show_event_repeat"
+            android:layout_below="@id/show_event_date"
+            android:text="Repeatability is empty"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/show_event_location"
+            android:layout_below="@id/show_event_repeat"
+            android:text="Location is empty"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/show_event_duration"
+            android:layout_below="@id/show_event_location"
+            android:text="Duration is empty"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/show_event_session"
+            android:layout_below="@id/show_event_duration"
+            android:text="Session is empty"/>
+    </RelativeLayout>
+</ScrollView>
