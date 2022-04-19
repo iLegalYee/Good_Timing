@@ -1,4 +1,4 @@
-package edu.fsu.cs.goodtiming;
+package edu.fsu.cs.goodtiming.Utils;
 
 public class ToDoModel {
 

@@ -3,8 +3,7 @@ package edu.fsu.cs.goodtiming;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -14,7 +13,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+
+import edu.fsu.cs.goodtiming.Utils.NewEventFragment;
+import edu.fsu.cs.goodtiming.Utils.Todomain;
 
 public class EventFragment extends Fragment {
     private OnEventFragmentInteractionListener mListener;
@@ -61,7 +62,7 @@ public class EventFragment extends Fragment {
         }
         if (id == R.id.addtask) {
             //jump here
-            Intent i = new Intent(getActivity(),Todomain.class);
+            Intent i = new Intent(getActivity(), Todomain.class);
             startActivity(i);
 
         }

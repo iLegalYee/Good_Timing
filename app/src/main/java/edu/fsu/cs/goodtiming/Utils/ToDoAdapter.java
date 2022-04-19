@@ -14,8 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import edu.fsu.cs.goodtiming.R;
-import edu.fsu.cs.goodtiming.ToDoModel;
-import edu.fsu.cs.goodtiming.Todomain;
 
 public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.MyViewHolder> {
 

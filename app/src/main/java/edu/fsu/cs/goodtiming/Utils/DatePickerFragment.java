@@ -1,4 +1,4 @@
-package edu.fsu.cs.goodtiming;
+package edu.fsu.cs.goodtiming.Utils;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;

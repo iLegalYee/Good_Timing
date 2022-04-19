@@ -2,7 +2,6 @@ package edu.fsu.cs.goodtiming.Utils;
 
 import android.app.Activity;
 import android.content.DialogInterface;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -17,9 +16,7 @@ import androidx.annotation.Nullable;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
-import edu.fsu.cs.goodtiming.OnDialogCloseListner;
 import edu.fsu.cs.goodtiming.R;
-import edu.fsu.cs.goodtiming.ToDoModel;
 
 public class AddNewTask extends BottomSheetDialogFragment {
 

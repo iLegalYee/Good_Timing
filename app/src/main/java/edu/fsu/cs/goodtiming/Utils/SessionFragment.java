@@ -1,4 +1,4 @@
-package edu.fsu.cs.goodtiming;
+package edu.fsu.cs.goodtiming.Utils;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -9,11 +9,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class CalendarFragment extends Fragment {
-    private OnCalendarFragmentInteractionListener mListener;
+import edu.fsu.cs.goodtiming.R;
+
+public class SessionFragment extends Fragment {
+    private OnSessionFragmentInteractionListener mListener;
     private Bundle mBundle;
 
-    public CalendarFragment() {
+    public SessionFragment() {
         // Required empty public constructor
     }
 
@@ -26,7 +28,7 @@ public class CalendarFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View rootView = inflater.inflate(R.layout.fragment_calendar, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_session, container, false);
 
         // If you want to find a view in here, use rootView.findViewById instead of getActivity().findViewById
 
@@ -37,8 +39,8 @@ public class CalendarFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnCalendarFragmentInteractionListener) {
-            mListener = (OnCalendarFragmentInteractionListener) context;
+        if (context instanceof OnSessionFragmentInteractionListener) {
+            mListener = (OnSessionFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnRegisterFragmentInteractionListener");
@@ -51,9 +53,9 @@ public class CalendarFragment extends Fragment {
         mListener = null;
     }
 
-    public interface OnCalendarFragmentInteractionListener {
-        void ShowSessionFragment(Bundle bundle);
+    public interface OnSessionFragmentInteractionListener {
         void ShowEventFragment(Bundle bundle);
+        void ShowCalendarFragment(Bundle bundle);
         void ShowUserFragment(Bundle bundle);
     }
 }

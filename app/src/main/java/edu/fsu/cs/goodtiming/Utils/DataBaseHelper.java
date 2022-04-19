@@ -12,8 +12,6 @@ import androidx.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.fsu.cs.goodtiming.ToDoModel;
-
 public class DataBaseHelper extends SQLiteOpenHelper {
 
     private SQLiteDatabase db;

@@ -1,4 +1,4 @@
-package edu.fsu.cs.goodtiming;
+package edu.fsu.cs.goodtiming.Utils;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
@@ -19,10 +19,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import edu.fsu.cs.goodtiming.Utils.AddNewTask;
-import edu.fsu.cs.goodtiming.Utils.DataBaseHelper;
-import edu.fsu.cs.goodtiming.Utils.RecyclerViewTouchHelper;
-import edu.fsu.cs.goodtiming.Utils.ToDoAdapter;
+import edu.fsu.cs.goodtiming.EventFragment;
+import edu.fsu.cs.goodtiming.R;
+import edu.fsu.cs.goodtiming.UserFragment;
 
 public class Todomain extends AppCompatActivity implements OnDialogCloseListner{
 

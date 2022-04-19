@@ -1,4 +1,4 @@
-package edu.fsu.cs.goodtiming;
+package edu.fsu.cs.goodtiming.Utils;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
+
+import edu.fsu.cs.goodtiming.R;
 
 public class ViewPagerAdapter extends PagerAdapter {
 

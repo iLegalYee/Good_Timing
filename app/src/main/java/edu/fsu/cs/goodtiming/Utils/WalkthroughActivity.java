@@ -1,4 +1,4 @@
-package edu.fsu.cs.goodtiming;
+package edu.fsu.cs.goodtiming.Utils;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +12,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import edu.fsu.cs.goodtiming.MainActivity;
+import edu.fsu.cs.goodtiming.R;
 
 public class WalkthroughActivity extends AppCompatActivity {
 
@@ -50,7 +53,7 @@ public class WalkthroughActivity extends AppCompatActivity {
                 if(getItem(0) > 3){
                     mSlideViewPager.setCurrentItem(getItem(1),true);
                 }else{
-                    Intent i = new Intent(WalkthroughActivity.this,MainActivity.class);
+                    Intent i = new Intent(WalkthroughActivity.this, MainActivity.class);
                     startActivity(i);
                     finish();
                 }
