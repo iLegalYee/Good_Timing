@@ -12,23 +12,39 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.GoodTiming">
-        <provider
-            android:name=".MyContentProvider"
-            android:authorities="edu.fsu.cs.goodtiming.provider"
-            android:enabled="true"
-            android:exported="true"
-            android:readPermission="edu.fsu.cs.goodtiming.permission.READ_PERMISSION"
-            android:writePermission="edu.fsu.cs.goodtiming.permsiion.WRITE_PERMISSION"></provider>
-
         <activity
-            android:name=".MainActivity"
-            android:exported="true">
+            android:name=".Todomain"
+            android:exported="false" />
+        <activity
+            android:name=".WalkthroughActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".SplashActivity"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <provider
+            android:name=".MyContentProvider"
+            android:authorities="edu.fsu.cs.goodtiming.provider"
+            android:enabled="true"
+            android:exported="true"
+            android:readPermission="edu.fsu.cs.goodtiming.permission.READ_PERMISSION"
+            android:writePermission="edu.fsu.cs.goodtiming.permsiion.WRITE_PERMISSION" />
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true" />
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

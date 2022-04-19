@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/Splashprimarydark"
+    tools:context=".SplashActivity">
+
+    <TextView
+        android:id="@+id/tvTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="Good Timing!"
+        android:textStyle="bold"
+        android:drawablePadding="15dp"
+        android:drawableRight="@drawable/ic_baseline_done_all_24"
+        android:textColor="@color/white"
+        android:textSize="40sp" />
+
+</RelativeLayout>
