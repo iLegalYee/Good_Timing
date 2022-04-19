@@ -53,13 +53,21 @@
         </FrameLayout>
 
         <TextView
+            android:id="@+id/analytics"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/child_user_fragment_container"
-            android:layout_marginTop="25dp"
             android:layout_marginStart="25dp"
-            android:textSize="20dp"
-            android:text="Analytics"/>
+            android:layout_marginTop="25dp"
+            android:text="Analytics"
+            android:textSize="20dp" />
+
+        <com.jjoe64.graphview.GraphView
+            android:id="@+id/graph"
+            android:layout_width="wrap_content"
+            android:layout_height="300dp"
+            android:layout_margin="25dp"
+            android:layout_below="@+id/analytics" />
 
     </RelativeLayout>
 </ScrollView>

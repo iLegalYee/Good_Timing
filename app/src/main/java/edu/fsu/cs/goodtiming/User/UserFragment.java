@@ -16,6 +16,10 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
 
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
+
 import edu.fsu.cs.goodtiming.R;
 
 public class UserFragment extends Fragment {
@@ -92,6 +96,16 @@ public class UserFragment extends Fragment {
                 menu.show();
             }
         });
+
+        GraphView graph = (GraphView) rootView.findViewById(R.id.graph);
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(new DataPoint[] {
+                new DataPoint(0, 1),
+                new DataPoint(1, 5),
+                new DataPoint(2, 3),
+                new DataPoint(3, 2),
+                new DataPoint(4, 6)
+        });
+        graph.addSeries(series);
 
         return rootView;
     }
