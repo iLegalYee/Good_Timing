@@ -23,6 +23,8 @@ import java.util.Calendar;
 import edu.fsu.cs.goodtiming.Calendar.CalendarFragment;
 import edu.fsu.cs.goodtiming.Timer.SessionFragment;
 import edu.fsu.cs.goodtiming.User.UserFragment;
+import edu.fsu.cs.goodtiming.Utils.NewEventFragment;
+import edu.fsu.cs.goodtiming.Utils.Todomain;
 
 // TODO: Makes sure to reset all notifications scheduled when booting up phone
 public class MainActivity extends AppCompatActivity implements
@@ -32,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements
         UserFragment.OnUserFragmentInteractionListener
 {
     FragmentManager fManager;
-    EventFragment eventFragment = null;
+    NewEventFragment eventFragment = null;
     SessionFragment sessionFragment = null;
     CalendarFragment calendarFragment = null;
     UserFragment userFragment = null;
@@ -54,6 +56,18 @@ public class MainActivity extends AppCompatActivity implements
 
         Bundle bundle = getIntent().getExtras();
 
+        if(bundle != null && bundle.containsKey("show")) {
+            String tempString = bundle.getString("show");
+            if(tempString.equals("event")) ShowEventFragment(null);
+            else if(tempString.equals("session")) ShowSessionFragment(null);
+            else if(tempString.equals("calendar")) ShowCalendarFragment(null);
+            else if(tempString.equals("user")) ShowUserFragment(null);
+        }
+        else {
+            Intent intent = new Intent(this, Todomain.class);
+            startActivity(intent);
+        }
+
         // Enters this statement when a notification is clicked to enter the app
         if(bundle != null && bundle.containsKey("session") && bundle.containsKey("id")) {
 //            if(bundle.getString("session").equals("yes")) {
@@ -72,10 +86,12 @@ public class MainActivity extends AppCompatActivity implements
         calendar = findViewById(R.id.main_calendar_button);
         user = findViewById(R.id.main_user_button);
 
+        final Intent intent = new Intent(this, Todomain.class);
+
         event.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ShowEventFragment(null);
+                startActivity(intent);
             }
         });
         session.setOnClickListener(new View.OnClickListener() {
@@ -101,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void ShowEventFragment(Bundle bundle) {
-        String tag = EventFragment.class.getCanonicalName();
+        String tag = NewEventFragment.class.getCanonicalName();
         FragmentTransaction transaction = fManager.beginTransaction();
         if(bundle != null && bundle.containsKey("Restart")) {
             if(eventFragment != null)
@@ -110,7 +126,7 @@ public class MainActivity extends AppCompatActivity implements
         }
         HideOpenFragment();
         if(eventFragment == null) {
-            eventFragment = new EventFragment();
+            eventFragment = new NewEventFragment();
             if (bundle != null)
                 eventFragment.setArguments(bundle);
             transaction.add(R.id.main_frame, eventFragment, tag).commit();

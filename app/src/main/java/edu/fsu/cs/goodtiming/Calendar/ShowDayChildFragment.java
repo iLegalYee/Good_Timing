@@ -1,8 +1,11 @@
 package edu.fsu.cs.goodtiming.Calendar;
 
 import android.database.Cursor;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 
 import android.provider.CalendarContract;
@@ -95,6 +98,10 @@ public class ShowDayChildFragment extends Fragment {
                     currentText.setId(View.generateViewId());
                     currentText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30f);
                     currentText.setClickable(true);
+                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                        currentText.setElevation(10f);
+                    else
+                        currentText.setShadowLayer(1.5f, -1, 1, Color.LTGRAY);
                     currentText.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
