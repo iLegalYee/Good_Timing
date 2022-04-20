@@ -12,63 +12,91 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:paddingTop="20dp"
+            android:layout_centerHorizontal="true"
+            android:textSize="30sp"
             android:id="@+id/show_event_header"
             android:text="Details About The Event" />
 
         <TextView
-            android:id="@+id/show_event_title"
+            android:id="@+id/event_text1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/show_event_header"
-            android:text="Title is empty" />
+            android:layout_centerHorizontal="true"
+            android:paddingTop="10dp"
+            android:text="Title is empty"
+            android:textSize="20sp" />
 
         <TextView
-            android:id="@+id/show_event_description"
+            android:id="@+id/event_text2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/show_event_title"
-            android:text="Description is empty" />
+            android:layout_below="@id/event_text1"
+            android:layout_centerHorizontal="true"
+            android:paddingTop="10dp"
+            android:text="Description is empty"
+            android:textSize="20sp" />
 
         <TextView
-            android:id="@+id/show_event_time"
+            android:id="@+id/event_text3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/show_event_description"
-            android:text="Time is empty" />
+            android:layout_below="@id/event_text2"
+            android:layout_centerHorizontal="true"
+            android:paddingTop="10dp"
+            android:text="Time is empty"
+            android:textSize="20sp" />
 
         <TextView
-            android:id="@+id/show_event_date"
+            android:id="@+id/event_text4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/show_event_time"
-            android:text="Date is empty" />
+            android:layout_below="@id/event_text3"
+            android:layout_centerHorizontal="true"
+            android:paddingTop="10dp"
+            android:text="Date is empty"
+            android:textSize="20sp" />
 
         <TextView
+            android:id="@+id/event_text5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/show_event_repeat"
-            android:layout_below="@id/show_event_date"
-            android:text="Repeatability is empty"/>
+            android:layout_below="@id/event_text4"
+            android:layout_centerHorizontal="true"
+            android:text="Repeatability is empty"
+            android:textSize="20sp"
+            android:paddingTop="10dp" />
 
         <TextView
+            android:id="@+id/event_text6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/show_event_location"
-            android:layout_below="@id/show_event_repeat"
-            android:text="Location is empty"/>
+            android:layout_below="@id/event_text5"
+            android:layout_centerHorizontal="true"
+            android:paddingTop="10dp"
+            android:text="Location is empty"
+            android:textSize="20sp" />
 
         <TextView
+            android:id="@+id/event_text7"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/show_event_duration"
-            android:layout_below="@id/show_event_location"
-            android:text="Duration is empty"/>
+            android:layout_below="@id/event_text6"
+            android:layout_centerHorizontal="true"
+            android:paddingTop="10dp"
+            android:text="Duration is empty"
+            android:textSize="20sp" />
 
         <TextView
+            android:id="@+id/event_text8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/show_event_session"
-            android:layout_below="@id/show_event_duration"
-            android:text="Session is empty"/>
+            android:layout_below="@id/event_text7"
+            android:layout_centerHorizontal="true"
+            android:paddingTop="10dp"
+            android:text="Session is empty"
+            android:textSize="20sp" />
     </RelativeLayout>
 </ScrollView>

@@ -49,6 +49,14 @@ public class CalendarFragment extends Fragment {
         // If you want to find a view in here, use rootView.findViewById instead of getActivity().findViewById
         ShowCalendarChild(null);
 
+        // Enters this statement if instance is started from clicking on a notification
+        if(mBundle != null && mBundle.containsKey("session") && mBundle.containsKey("id")) {
+            Bundle tempBundle = new Bundle();
+            tempBundle.putInt("id", mBundle.getInt("id"));
+            tempBundle.putString("calendar", "appcalendar");
+            ShowEventChild(tempBundle);
+        }
+
         return rootView;
     }
 
