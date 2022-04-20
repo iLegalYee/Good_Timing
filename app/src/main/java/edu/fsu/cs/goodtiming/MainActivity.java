@@ -13,6 +13,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import edu.fsu.cs.goodtiming.Calendar.CalendarFragment;
+import edu.fsu.cs.goodtiming.Timer.SessionFragment;
 import edu.fsu.cs.goodtiming.User.UserFragment;
 
 public class MainActivity extends AppCompatActivity implements

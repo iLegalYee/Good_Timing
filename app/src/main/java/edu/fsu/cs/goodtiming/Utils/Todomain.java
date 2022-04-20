@@ -19,9 +19,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import edu.fsu.cs.goodtiming.Calendar.CalendarFragment;
 import edu.fsu.cs.goodtiming.EventFragment;
 import edu.fsu.cs.goodtiming.R;
-import edu.fsu.cs.goodtiming.UserFragment;
+import edu.fsu.cs.goodtiming.User.UserFragment;
+
 
 public class Todomain extends AppCompatActivity implements OnDialogCloseListner{
 
