@@ -1,8 +1,11 @@
 package edu.fsu.cs.goodtiming.Calendar;
 
 import android.database.Cursor;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 
 import android.provider.CalendarContract;
@@ -93,8 +96,12 @@ public class ShowDayChildFragment extends Fragment {
                     final int id = cursor.getInt(cursor.getColumnIndexOrThrow("_id"));
                     currentText = new TextView(getContext());
                     currentText.setId(View.generateViewId());
-                    currentText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20f);
+                    currentText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30f);
                     currentText.setClickable(true);
+                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                        currentText.setElevation(10f);
+                    else
+                        currentText.setShadowLayer(1.5f, -1, 1, Color.LTGRAY);
                     currentText.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -166,7 +173,7 @@ public class ShowDayChildFragment extends Fragment {
         Calendar endTime= Calendar.getInstance();
         endTime.set(year, month - 1, day, 23, 59, 59);
 
-        String selection = "(( " + CalendarContract.Events.DTSTART + " >= " + startTime.getTimeInMillis() + " ) AND ( " + CalendarContract.Events.DTSTART + " <= " + endTime.getTimeInMillis() + " ) AND ( deleted != 1 ))";
+        String selection = "(( " + MyContentProvider.COLUMN_EVENTS_TIME + " >= " + startTime.getTimeInMillis() + " ) AND ( " + MyContentProvider.COLUMN_EVENTS_TIME + " <= " + endTime.getTimeInMillis() + " ) AND ( deleted != 1 ))";
         return getActivity().getContentResolver().query(MyContentProvider.EVENTS_CONTENT_URI, projection, selection, null, null);
     }
 
@@ -177,12 +184,8 @@ public class ShowDayChildFragment extends Fragment {
                 MyContentProvider.COLUMN_TASKS_NAME,
                 MyContentProvider.COLUMN_TASKS_DESCRIPTION,
                 MyContentProvider.COLUMN_TASKS_DEADLINE};
-        Calendar startTime = Calendar.getInstance();
-        startTime.set(year, month - 1, day, 0, 0, 0);
-        Calendar endTime= Calendar.getInstance();
-        endTime.set(year, month - 1, day, 23, 59, 59);
 
-        String selection = "(( " + CalendarContract.Events.DTSTART + " >= " + startTime.getTimeInMillis() + " ) AND ( " + CalendarContract.Events.DTSTART + " <= " + endTime.getTimeInMillis() + " ) AND ( deleted != 1 ))";
+        String selection = "( " + MyContentProvider.COLUMN_TASKS_DEADLINE + " == " + month + "/" + day + "/" + year + " )";
         return getActivity().getContentResolver().query(MyContentProvider.TASKS_CONTENT_URI, projection, selection, null, null);
     }
 }

@@ -22,6 +22,7 @@ import java.util.Collections;
 import java.util.List;
 import edu.fsu.cs.goodtiming.Calendar.CalendarFragment;
 import edu.fsu.cs.goodtiming.EventFragment;
+import edu.fsu.cs.goodtiming.MainActivity;
 import edu.fsu.cs.goodtiming.R;
 import edu.fsu.cs.goodtiming.User.UserFragment;
 
@@ -56,28 +57,42 @@ public class Todomain extends AppCompatActivity implements OnDialogCloseListner{
         calendar = findViewById(R.id.main_calendar_button);
         user = findViewById(R.id.main_user_button);
 
-        event.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ShowEventFragment(null);
-            }
-        });
+        Bundle bundle1 = new Bundle();
+        bundle1.putString("show", "event");
+        Bundle bundle2 = new Bundle();
+        bundle2.putString("show", "session");
+        Bundle bundle3 = new Bundle();
+        bundle3.putString("show", "calendar");
+        Bundle bundle4 = new Bundle();
+        bundle4.putString("show", "user");
+
+        final Intent intent1 = new Intent(this, MainActivity.class).putExtras(bundle1);
+        final Intent intent2 = new Intent(this, MainActivity.class).putExtras(bundle2);
+        final Intent intent3 = new Intent(this, MainActivity.class).putExtras(bundle3);
+        final Intent intent4 = new Intent(this, MainActivity.class).putExtras(bundle4);
+
+//        event.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                startActivity(intent1);
+//            }
+//        });
         session.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ShowSessionFragment(null);
+                startActivity(intent2);
             }
         });
         calendar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ShowCalendarFragment(null);
+                startActivity(intent3);
             }
         });
         user.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ShowUserFragment(null);
+                startActivity(intent4);
             }
         });
 
@@ -247,8 +262,11 @@ public class Todomain extends AppCompatActivity implements OnDialogCloseListner{
         int id = item.getItemId();
         if (id == R.id.addevent) {
             //jump here
-
-
+            Intent intent = new Intent(this, MainActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("show", "event");
+            intent.putExtras(bundle);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
