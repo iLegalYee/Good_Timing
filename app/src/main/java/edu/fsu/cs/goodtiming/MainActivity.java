@@ -1,8 +1,14 @@
 package edu.fsu.cs.goodtiming;
 
 import android.Manifest;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.provider.CalendarContract;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -12,9 +18,12 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import java.util.Calendar;
+
 import edu.fsu.cs.goodtiming.Calendar.CalendarFragment;
 import edu.fsu.cs.goodtiming.User.UserFragment;
 
+// TODO: Makes sure to reset all notifications scheduled when booting up phone
 public class MainActivity extends AppCompatActivity implements
         EventFragment.OnEventFragmentInteractionListener,
         SessionFragment.OnSessionFragmentInteractionListener,
@@ -35,11 +44,27 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
         RequestPermission(Manifest.permission.READ_CALENDAR);
         RequestPermission(Manifest.permission.WRITE_CALENDAR);
         fManager = getSupportFragmentManager();
-        setContentView(R.layout.activity_main);
         ShowEventFragment(null);
+
+        Bundle bundle = getIntent().getExtras();
+
+        // Enters this statement when a notification is clicked to enter the app
+        if(bundle != null && bundle.containsKey("session") && bundle.containsKey("id")) {
+//            if(bundle.getString("session").equals("yes")) {
+//
+//            }
+//            else if(bundle.getString("session").equals("no")) {
+//
+//            }
+            // TODO: Use the above commented code to show the timer if event is a session and
+            //  show the event details if event is not a session
+            ShowCalendarFragment(bundle);
+        }
 
         event = findViewById(R.id.main_event_button);
         session = findViewById(R.id.main_session_button);
@@ -163,6 +188,89 @@ public class MainActivity extends AppCompatActivity implements
         if(sessionFragment != null)fManager.beginTransaction().hide(sessionFragment).commit();
         if(calendarFragment != null)fManager.beginTransaction().hide(calendarFragment).commit();
         if(userFragment != null)fManager.beginTransaction().hide(userFragment).commit();
+    }
+
+    // TODO: Make sure to call this when putting new events in the events table
+    public void SetTimedNotification(int id) {
+        String[] projection = new String[] {
+                MyContentProvider.COLUMN_EVENTS_ID,
+                MyContentProvider.COLUMN_EVENTS_NAME,
+                MyContentProvider.COLUMN_EVENTS_DESCRIPTION,
+                MyContentProvider.COLUMN_EVENTS_TIME,
+                MyContentProvider.COLUMN_EVENTS_DATE,
+                MyContentProvider.COLUMN_EVENTS_REPEAT,
+                MyContentProvider.COLUMN_EVENTS_LOCATION,
+                MyContentProvider.COLUMN_EVENTS_DURATION,
+                MyContentProvider.COLUMN_EVENTS_IS_SESSION};
+
+        String selection = "( " + MyContentProvider.COLUMN_EVENTS_ID + " == " + id + " )";
+        Cursor cursor = getContentResolver().query(MyContentProvider.EVENTS_CONTENT_URI,
+                projection, selection, null, null);
+        if(cursor != null && cursor.moveToFirst()) {
+            long time = Integer.parseInt(cursor.getString(
+                    cursor.getColumnIndexOrThrow(MyContentProvider.COLUMN_EVENTS_TIME)));
+            long earlytime = time - 900000;
+            long timenow = Calendar.getInstance().getTimeInMillis();
+
+            AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+            if(earlytime > timenow) {
+                Intent alarmIntent = new Intent(getApplicationContext(), AlarmReceiver.class);
+                alarmIntent.putExtra("id", id);
+                alarmIntent.putExtra("type", "early");
+                PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                        getApplicationContext(), 0, alarmIntent, 0);
+                alarmManager.set(AlarmManager.RTC_WAKEUP, earlytime, pendingIntent);
+            }
+            if(time > timenow) {
+                Intent alarmIntent = new Intent(getApplicationContext(), AlarmReceiver.class);
+                alarmIntent.putExtra("id", id);
+                alarmIntent.putExtra("type", "ontime");
+                PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                        getApplicationContext(), 0, alarmIntent, 0);
+                alarmManager.set(AlarmManager.RTC_WAKEUP, time, pendingIntent);
+            }
+        }
+    }
+
+    // TODO: Make sure to call this each time BEFORE deleting an entry from our local event table
+    public void CancelTimedNotification(int id) {
+        String[] projection = new String[] {
+                MyContentProvider.COLUMN_EVENTS_ID,
+                MyContentProvider.COLUMN_EVENTS_NAME,
+                MyContentProvider.COLUMN_EVENTS_DESCRIPTION,
+                MyContentProvider.COLUMN_EVENTS_TIME,
+                MyContentProvider.COLUMN_EVENTS_DATE,
+                MyContentProvider.COLUMN_EVENTS_REPEAT,
+                MyContentProvider.COLUMN_EVENTS_LOCATION,
+                MyContentProvider.COLUMN_EVENTS_DURATION,
+                MyContentProvider.COLUMN_EVENTS_IS_SESSION};
+
+        String selection = "( " + MyContentProvider.COLUMN_EVENTS_ID + " == " + id + " )";
+        Cursor cursor = getContentResolver().query(MyContentProvider.EVENTS_CONTENT_URI,
+                projection, selection, null, null);
+        if(cursor != null && cursor.moveToFirst()) {
+            String timeString = cursor.getString(
+                    cursor.getColumnIndexOrThrow(MyContentProvider.COLUMN_EVENTS_TIME));
+            if (timeString == null || timeString.equals("")) {
+                return;
+            }
+            long time = Integer.parseInt(timeString);
+
+            AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+            Intent alarmIntent1 = new Intent(getApplicationContext(), AlarmReceiver.class);
+            alarmIntent1.putExtra("id", id);
+            alarmIntent1.putExtra("type", "early");
+            PendingIntent pendingIntent1 = PendingIntent.getBroadcast(
+                    getApplicationContext(), 0, alarmIntent1, 0);
+            alarmManager.cancel(pendingIntent1);
+
+            Intent alarmIntent2 = new Intent(getApplicationContext(), AlarmReceiver.class);
+            alarmIntent2.putExtra("id", id);
+            alarmIntent2.putExtra("type", "ontime");
+            PendingIntent pendingIntent2 = PendingIntent.getBroadcast(
+                    getApplicationContext(), 0, alarmIntent2, 0);
+            alarmManager.cancel(pendingIntent2);
+        }
     }
 
     // From https://stackoverflow.com/questions/33347809/android-marshmallow-sms-received-permission

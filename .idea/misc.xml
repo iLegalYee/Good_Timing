@@ -14,6 +14,8 @@
         <entry key="..\:/Users/curly/AndroidStudioProjects/Good_Timing/app/src/main/res/layout/fragment_user__journal.xml" value="0.36102564102564105" />
         <entry key="..\:/Users/curly/AndroidStudioProjects/Good_Timing/app/src/main/res/layout/fragment_user_journal.xml" value="0.25" />
         <entry key="..\:/Users/curly/AndroidStudioProjects/Good_Timing/app/src/main/res/menu/settings_popup_menu.xml" value="0.3151041666666667" />
+        <entry key="app/src/main/res/layout/fragment_show_day_child.xml" value="0.17664023071377072" />
+        <entry key="app/src/main/res/layout/fragment_show_event_child.xml" value="0.1" />
       </map>
     </option>
   </component>
