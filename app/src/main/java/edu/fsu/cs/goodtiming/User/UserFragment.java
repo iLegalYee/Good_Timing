@@ -111,6 +111,7 @@ public class UserFragment extends Fragment {
                 new DataPoint(3, 2),
                 new DataPoint(4, 6)
         });
+        graph.setTitle("Time Spent Studying Past 7 Days");
         graph.addSeries(series);
 
         return rootView;

@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(R.style.Light_Theme);
         RequestPermission(Manifest.permission.READ_CALENDAR);
         RequestPermission(Manifest.permission.WRITE_CALENDAR);
         fManager = getSupportFragmentManager();
