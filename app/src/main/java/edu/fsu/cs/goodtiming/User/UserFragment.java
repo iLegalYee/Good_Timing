@@ -98,6 +98,7 @@ public class UserFragment extends Fragment {
         });
 
         GraphView graph = (GraphView) rootView.findViewById(R.id.graph);
+        //TODO: get data from Content Provider
         LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(new DataPoint[] {
                 new DataPoint(0, 1),
                 new DataPoint(1, 5),
