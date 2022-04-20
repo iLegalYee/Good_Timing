@@ -16,7 +16,7 @@
         android:theme="@style/Theme.GoodTiming">
         <activity
             android:name=".Utils.Todomain"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".Utils.WalkthroughActivity"
             android:exported="false"

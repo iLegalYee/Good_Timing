@@ -9,6 +9,8 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +19,8 @@ import android.widget.ImageButton;
 import android.widget.PopupMenu;
 
 import edu.fsu.cs.goodtiming.R;
+import edu.fsu.cs.goodtiming.Utils.NewEventFragment;
+import edu.fsu.cs.goodtiming.Utils.Todomain;
 
 public class UserFragment extends Fragment {
 
@@ -29,6 +33,7 @@ public class UserFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
         super.onCreate(savedInstanceState);
         mBundle = getArguments();
     }
@@ -127,4 +132,31 @@ public class UserFragment extends Fragment {
         void ShowCalendarFragment(Bundle bundle);
         void ShowEventFragment(Bundle bundle);
     }
+
+    @Override
+    public void onCreateOptionsMenu (Menu menu, MenuInflater inflater) {
+        //inflate menu
+        menu.clear();
+        inflater.inflate(R.menu.eventmenu, menu);
+        //in case we want to hide certain items in the future
+        //menu.findItem(R.id.addevent).setVisible(false);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected (MenuItem item) {
+        //handle menu item clicks
+        int id = item.getItemId();
+        if (id == R.id.addevent) {
+            //jump here
+            NewEventFragment NewEventFragment = new NewEventFragment();
+            FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.main_frame,NewEventFragment);
+            fragmentTransaction.commit();
+
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
 }
