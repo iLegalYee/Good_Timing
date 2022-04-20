@@ -21,6 +21,7 @@ import androidx.fragment.app.FragmentTransaction;
 import java.util.Calendar;
 
 import edu.fsu.cs.goodtiming.Calendar.CalendarFragment;
+import edu.fsu.cs.goodtiming.Timer.SessionFragment;
 import edu.fsu.cs.goodtiming.User.UserFragment;
 
 // TODO: Makes sure to reset all notifications scheduled when booting up phone
