@@ -1,4 +1,20 @@
 <resources>
     <string name="app_name">Good Timing!</string>
     <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    //&amp; code Some of this tools are a timer, event manager and even a to-do-list!
+
+    //Headings
+    <string name="heading_one">Welcome to the Good Timing app!</string>
+    <string name="heading_two">Events Management</string>
+    <string name="heading_three">Timer</string>
+    <string name="heading_fourth">To do List</string>
+
+    //Description
+    <string name="desc_one">Need a little help with time management? This is the ultimate app for that. Here you will find many tools to help you manage your time and tasks in your daily life.</string>
+    <string name="desc_two">In Good Timing you will find tool like a timer, calendar and even a to-do-list! In the calendar tab you will be able to see and create events to plan ahead and not be caught offguard by any unforeseen tasks.</string>
+    <string name="desc_three">We also have a timer that will help you time any type of study session with some music as well to help you relax.</string>
+    <string name="desc_fourth">If you have any goals you are working towards add them to your to do list and check them out once they are finally fulfilled!</string>
+
 </resources>
