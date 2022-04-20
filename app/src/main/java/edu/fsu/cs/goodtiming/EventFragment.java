@@ -60,12 +60,7 @@ public class EventFragment extends Fragment {
             fragmentTransaction.commit();
 
         }
-        if (id == R.id.addtask) {
-            //jump here
-            Intent i = new Intent(getActivity(), Todomain.class);
-            startActivity(i);
 
-        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -99,4 +94,7 @@ public class EventFragment extends Fragment {
         void ShowCalendarFragment(Bundle bundle);
         void ShowUserFragment(Bundle bundle);
     }
+
+
+
 }

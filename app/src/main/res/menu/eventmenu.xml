@@ -7,10 +7,5 @@
         app:showAsAction="never"
         />
 
-    <item android:id="@+id/addtask"
-        android:title="Add Task"
-        app:showAsAction="never"
-        />
-
 
 </menu>
