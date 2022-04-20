@@ -46,6 +46,7 @@
             android:exported="false" />
         <service
             android:name=".MediaPlayerService"
+            android:process=":Good_Timing_background"
             android:enabled="true"
             android:exported="false"
             />
