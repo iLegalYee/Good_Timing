@@ -1,14 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SessionFragment">
+    tools:context=".Timer.SessionFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Inside Session Fragment" />
 
-</FrameLayout>
+    <TextView
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/textviewCountDown"
+        android:layout_gravity="center"
+        android:layout_marginStart="20dp"
+        android:text="Title"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/textviewCountDown"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="00:00:00"
+        android:textColor="@color/black"
+        android:textSize="60sp" />
+
+    <Button
+        android:id="@+id/btnStartPause"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/textviewCountDown"/>
+
+    <Button
+        android:id="@+id/btnReset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Reset"
+        android:layout_marginStart="10dp"
+        android:layout_below="@+id/textviewCountDown"
+        android:visibility="invisible"
+        tools:visibility="visible"
+        />
+
+    <Button
+        android:id="@+id/btnBreak"
+        android:text="5MinBreak"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textviewCountDown"
+        android:layout_toEndOf="@+id/btnStartPause"
+        android:visibility="invisible"
+        tools:visibility="visible"/>
+
+    <TextView
+        android:id="@+id/textviewLofi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Some LOFI mix ﾂ"
+        android:textSize="20sp"
+        android:paddingTop="10sp"
+        android:layout_toLeftOf="@+id/btnPlay"/>
+
+    <ImageButton
+        android:id="@+id/btnPlay"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentEnd="true"
+        android:clickable="true"
+        android:background="@drawable/playbtn"
+         />
+
+
+
+
+
+
+
+</RelativeLayout>

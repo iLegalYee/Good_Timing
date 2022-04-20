@@ -1,14 +1,18 @@
 package edu.fsu.cs.goodtiming;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import edu.fsu.cs.goodtiming.Calendar.CalendarFragment;
 import edu.fsu.cs.goodtiming.User.UserFragment;
 
 public class MainActivity extends AppCompatActivity implements
@@ -28,11 +32,11 @@ public class MainActivity extends AppCompatActivity implements
     Button calendar;
     Button user;
 
-    int indexOfShownFragment = 0;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        RequestPermission(Manifest.permission.READ_CALENDAR);
+        RequestPermission(Manifest.permission.WRITE_CALENDAR);
         fManager = getSupportFragmentManager();
         setContentView(R.layout.activity_main);
         ShowEventFragment(null);
@@ -71,7 +75,6 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void ShowEventFragment(Bundle bundle) {
-        Log.d("Inside Main", "ShowEventFragment");
         String tag = EventFragment.class.getCanonicalName();
         FragmentTransaction transaction = fManager.beginTransaction();
         if(bundle != null && bundle.containsKey("Restart")) {
@@ -84,18 +87,15 @@ public class MainActivity extends AppCompatActivity implements
             eventFragment = new EventFragment();
             if (bundle != null)
                 eventFragment.setArguments(bundle);
-            transaction.add(R.id.main_frame, eventFragment).commit();
-            indexOfShownFragment = 1;
+            transaction.add(R.id.main_frame, eventFragment, tag).commit();
         }
         else {
             transaction.show(eventFragment).commit();
-            indexOfShownFragment = 1;
         }
     }
 
     @Override
     public void ShowSessionFragment(Bundle bundle) {
-        Log.d("Inside Main", "ShowSessionFragment");
         String tag = SessionFragment.class.getCanonicalName();
         FragmentTransaction transaction = fManager.beginTransaction();
         if(bundle != null && bundle.containsKey("Restart")) {
@@ -108,18 +108,15 @@ public class MainActivity extends AppCompatActivity implements
             sessionFragment = new SessionFragment();
             if (bundle != null)
                 sessionFragment.setArguments(bundle);
-            transaction.add(R.id.main_frame, sessionFragment).commit();
-            indexOfShownFragment = 2;
+            transaction.add(R.id.main_frame, sessionFragment, tag).commit();
         }
         else {
             transaction.show(sessionFragment).commit();
-            indexOfShownFragment = 2;
         }
     }
 
     @Override
     public void ShowCalendarFragment(Bundle bundle) {
-        Log.d("Inside Main", "ShowCalendarFragment");
         String tag = CalendarFragment.class.getCanonicalName();
         FragmentTransaction transaction = fManager.beginTransaction();
         if(bundle != null && bundle.containsKey("Restart")) {
@@ -132,19 +129,16 @@ public class MainActivity extends AppCompatActivity implements
             calendarFragment = new CalendarFragment();
             if (bundle != null)
                 calendarFragment.setArguments(bundle);
-            transaction.add(R.id.main_frame, calendarFragment).commit();
-            indexOfShownFragment = 3;
+            transaction.add(R.id.main_frame, calendarFragment, tag).commit();
         }
         else {
             transaction.show(calendarFragment).commit();
-            indexOfShownFragment = 3;
         }
 
     }
 
     @Override
     public void ShowUserFragment(Bundle bundle) {
-        Log.d("Inside Main", "ShowUserFragment");
         String tag = UserFragment.class.getCanonicalName();
         FragmentTransaction transaction = fManager.beginTransaction();
         if(bundle != null && bundle.containsKey("Restart")) {
@@ -157,32 +151,28 @@ public class MainActivity extends AppCompatActivity implements
             userFragment = new UserFragment();
             if (bundle != null)
                 userFragment.setArguments(bundle);
-            transaction.add(R.id.main_frame, userFragment).commit();
-            indexOfShownFragment = 4;
+            transaction.add(R.id.main_frame, userFragment, tag).commit();
         }
         else {
             transaction.show(userFragment).commit();
-            indexOfShownFragment = 4;
         }
     }
 
     private void HideOpenFragment() {
-        switch(indexOfShownFragment) {
-            case 0:
-                break;
-            case 1:
-                fManager.beginTransaction().hide(eventFragment).commit();
-                break;
-            case 2:
-                fManager.beginTransaction().hide(sessionFragment).commit();
-                break;
-            case 3:
-                fManager.beginTransaction().hide(calendarFragment).commit();
-                break;
-            case 4:
-                fManager.beginTransaction().hide(userFragment).commit();
-                break;
-        }
+        if(eventFragment != null)fManager.beginTransaction().hide(eventFragment).commit();
+        if(sessionFragment != null)fManager.beginTransaction().hide(sessionFragment).commit();
+        if(calendarFragment != null)fManager.beginTransaction().hide(calendarFragment).commit();
+        if(userFragment != null)fManager.beginTransaction().hide(userFragment).commit();
+    }
 
+    // From https://stackoverflow.com/questions/33347809/android-marshmallow-sms-received-permission
+    private void RequestPermission(String permission) {
+        //String permission = Manifest.permission.RECEIVE_SMS;
+        int grant = ContextCompat.checkSelfPermission(this, permission);
+        if ( grant != PackageManager.PERMISSION_GRANTED) {
+            String[] permission_list = new String[1];
+            permission_list[0] = permission;
+            ActivityCompat.requestPermissions(this, permission_list, 1);
+        }
     }
 }

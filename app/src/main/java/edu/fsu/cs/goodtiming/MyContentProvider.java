@@ -15,6 +15,7 @@ public class MyContentProvider extends ContentProvider {
 
     // These are the names of the tables and table columns
     public final static String TABLE_EVENTS = "EventsTable";
+    public final static String COLUMN_EVENTS_ID = "_ID";
     public final static String COLUMN_EVENTS_NAME = "Name";
     public final static String COLUMN_EVENTS_DESCRIPTION = "Description";
     public final static String COLUMN_EVENTS_TIME = "Time";
@@ -28,7 +29,7 @@ public class MyContentProvider extends ContentProvider {
             "content://edu.fsu.cs.goodtiming.provider/" + TABLE_EVENTS);
     public final static String EVENTS_SQL_CREATE_MAIN =
             "CREATE TABLE IF NOT EXISTS " + TABLE_EVENTS + " ( " +
-                    "_ID INTEGER PRIMARY KEY, " +
+                    COLUMN_EVENTS_ID + " INTEGER PRIMARY KEY, " +
                     COLUMN_EVENTS_NAME + " TEXT, " +
                     COLUMN_EVENTS_DESCRIPTION + " TEXT, " +
                     COLUMN_EVENTS_TIME + " TEXT, " +
@@ -40,6 +41,7 @@ public class MyContentProvider extends ContentProvider {
 
 
     public final static String TABLE_TASKS = "TasksTable";
+    public final static String COLUMN_TASKS_ID = "_ID";
     public final static String COLUMN_TASKS_NAME = "Name";
     public final static String COLUMN_TASKS_DESCRIPTION = "Description";
     public final static String COLUMN_TASKS_DEADLINE = "Deadline";
@@ -48,13 +50,14 @@ public class MyContentProvider extends ContentProvider {
             "content://edu.fsu.cs.goodtiming.provider/" + TABLE_TASKS);
     public final static String TASKS_SQL_CREATE_MAIN =
             "CREATE TABLE IF NOT EXISTS " + TABLE_TASKS + " ( " +
-                    "_ID INTEGER PRIMARY KEY, " +
+                    COLUMN_TASKS_ID + " INTEGER PRIMARY KEY, " +
                     COLUMN_TASKS_NAME + " TEXT, " +
                     COLUMN_TASKS_DESCRIPTION + " TEXT, " +
                     COLUMN_TASKS_DEADLINE + " TEXT)";
 
 
     public final static String TABLE_ANALYTICS = "AnalyticsTable";
+    public final static String COLUMN_ANALYTICS_ID = "_ID";
     public final static String COLUMN_ANALYTICS_DATE = "Date";
     public final static String COLUMN_ANALYTICS_TIME = "Time";
     public final static String COLUMN_ANALYTICS_NAME = "Name";
@@ -63,7 +66,7 @@ public class MyContentProvider extends ContentProvider {
             "content://edu.fsu.cs.goodtiming.provider/" + TABLE_ANALYTICS);
     public final static String ANALYTICS_SQL_CREATE_MAIN =
             "CREATE TABLE IF NOT EXISTS " + TABLE_ANALYTICS + " ( " +
-                    "_ID INTEGER PRIMARY KEY, " +
+                    COLUMN_ANALYTICS_ID + " INTEGER PRIMARY KEY, " +
                     COLUMN_ANALYTICS_DATE + " TEXT, " +
                     COLUMN_ANALYTICS_TIME + " TEXT, " +
                     COLUMN_ANALYTICS_NAME + " TEXT)";
