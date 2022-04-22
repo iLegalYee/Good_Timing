@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import edu.fsu.cs.goodtiming.R;
 
+// Holds the information for each selection in the recycler view shown in the show day fragment
+// Accessed by the RecyclerAdapter
 public class ExamViewHolder
         extends RecyclerView.ViewHolder {
     TextView examName;

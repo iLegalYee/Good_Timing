@@ -207,6 +207,7 @@ public class NewEventFragment extends Fragment implements DatePickerDialog.OnDat
                 int id = Integer.parseInt(uri.toString().substring(uri.toString().lastIndexOf("/") + 1));
                 mListener.SetTimedNotification(id);
                 Log.d("Inside newevent", "id is " + id);
+
             }
 
         });

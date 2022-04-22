@@ -19,6 +19,7 @@ import edu.fsu.cs.goodtiming.R;
 import edu.fsu.cs.goodtiming.Utils.NewEventFragment;
 import edu.fsu.cs.goodtiming.Utils.Todomain;
 
+// This fragment is for the main calendar tab and it nests child fragments within it
 public class CalendarFragment extends Fragment {
     private OnCalendarFragmentInteractionListener mListener;
     private Bundle mBundle;
@@ -78,6 +79,7 @@ public class CalendarFragment extends Fragment {
         mListener = null;
     }
 
+    // These functions replace the current shown child fragment with the specified fragment
     public void ShowCalendarChild(Bundle bundle) {
         FragmentTransaction transaction = fManager.beginTransaction();
         calendarFragment = new CalendarChildFragment();
@@ -110,6 +112,7 @@ public class CalendarFragment extends Fragment {
 
     }
 
+    // Interface to call MainActivity functions
     public interface OnCalendarFragmentInteractionListener {
         void ShowSessionFragment(Bundle bundle);
         void ShowEventFragment(Bundle bundle);

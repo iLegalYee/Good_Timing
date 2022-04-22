@@ -58,7 +58,7 @@ public class MyContentProvider extends ContentProvider {
 
     public final static String TABLE_ANALYTICS = "AnalyticsTable";
     public final static String COLUMN_ANALYTICS_ID = "_ID";
-    public final static String COLUMN_ANALYTICS_DATE = "Date";
+    public final static String COLUMN_ANALYTICS_DATA = "Date";
     public final static String COLUMN_ANALYTICS_TIME = "Time";
     public final static String COLUMN_ANALYTICS_NAME = "Name";
 
@@ -67,7 +67,7 @@ public class MyContentProvider extends ContentProvider {
     public final static String ANALYTICS_SQL_CREATE_MAIN =
             "CREATE TABLE IF NOT EXISTS " + TABLE_ANALYTICS + " ( " +
                     COLUMN_ANALYTICS_ID + " INTEGER PRIMARY KEY, " +
-                    COLUMN_ANALYTICS_DATE + " TEXT, " +
+                    COLUMN_ANALYTICS_DATA + " TEXT, " +
                     COLUMN_ANALYTICS_TIME + " TEXT, " +
                     COLUMN_ANALYTICS_NAME + " TEXT)";
 

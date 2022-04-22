@@ -163,7 +163,7 @@ public class UserFragment extends Fragment {
 
         }
 
-        return super.onOptionsItemSelected(item);
+            return super.onOptionsItemSelected(item);
     }
 
     // Get analytics for last seven days
@@ -181,7 +181,7 @@ public class UserFragment extends Fragment {
         String[] projection = new String[] {
                 MyContentProvider.COLUMN_ANALYTICS_NAME,
                 MyContentProvider.COLUMN_ANALYTICS_TIME,
-                MyContentProvider.COLUMN_ANALYTICS_DATE};
+                MyContentProvider.COLUMN_ANALYTICS_DATA};
 
         Calendar startTime = Calendar.getInstance();
         startTime.set(startYear, startMonth - 1, startDay, 0, 0, 0);
@@ -191,5 +191,6 @@ public class UserFragment extends Fragment {
         String selection = "(( " + MyContentProvider.COLUMN_EVENTS_TIME + " >= " + startTime.getTimeInMillis() + " ) AND ( " + MyContentProvider.COLUMN_EVENTS_TIME + " <= " + endTime.getTimeInMillis() + " ))";
         return getActivity().getContentResolver().query(MyContentProvider.EVENTS_CONTENT_URI, projection, selection, null, null);
     }
+
 
 }

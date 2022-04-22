@@ -66,6 +66,7 @@ public class ShowEventChildFragment extends Fragment {
 
         if(bundle != null && bundle.containsKey("id") && bundle.containsKey("calendar")) {
             if (bundle.getString("calendar").equals("androidcalendar")) {
+                // Enters this if the event is located in the android calendar
                 // Querying the default android calendar
                 String[] projection = new String[]{
                         CalendarContract.Events._ID,
@@ -80,6 +81,7 @@ public class ShowEventChildFragment extends Fragment {
                 String selection = "( " + CalendarContract.Events._ID + " == " + bundle.getInt("id") + " )";
                 Cursor cursor = getActivity().getContentResolver().query(CalendarContract.Events.CONTENT_URI, projection, selection, null, null);
 
+                // Working through the entry returned from the cursor to initialize the textviews
                 if (cursor.moveToNext()) {
                     String tempString;
                     tempString = cursor.getString(cursor.getColumnIndexOrThrow("title"));
@@ -139,8 +141,10 @@ public class ShowEventChildFragment extends Fragment {
                 }
                 cursor.close();
             }
+
             else if(bundle.getString("calendar").equals("appcalendar")) {
-                // TODO: Query local app calendar for event and figure out how to display it
+                // Enters here if the specified event is in the local app calendar
+                //Querying the local app calendar
                 String[] projection = new String[] {
                         MyContentProvider.COLUMN_EVENTS_ID,
                         MyContentProvider.COLUMN_EVENTS_NAME,
@@ -155,6 +159,8 @@ public class ShowEventChildFragment extends Fragment {
                         bundle.getInt("id") + " )";
                 Cursor cursor = getActivity().getContentResolver().query(MyContentProvider.EVENTS_CONTENT_URI,
                         projection, selection, null, null);
+
+                // Working through the entry returned to initialize the textviews
                 if (cursor.moveToNext()) {
                     String tempString;
                     tempString = cursor.getString(cursor.getColumnIndexOrThrow(MyContentProvider.COLUMN_EVENTS_NAME));
@@ -215,8 +221,8 @@ public class ShowEventChildFragment extends Fragment {
                 cursor.close();
             }
 
+            // Doing the same as above for the tasks
             else if(bundle.getString("calendar").equals("task")) {
-                // TODO: Query task table and figure out how to display it
                 String[] projection = new String[] {
                         MyContentProvider.COLUMN_TASKS_ID,
                         MyContentProvider.COLUMN_TASKS_NAME,

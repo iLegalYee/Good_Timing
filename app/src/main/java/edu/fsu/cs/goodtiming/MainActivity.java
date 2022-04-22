@@ -83,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements
             ShowCalendarFragment(bundle);
         }
 
+        // Make buttons change fragments
         event = findViewById(R.id.main_event_button);
         session = findViewById(R.id.main_session_button);
         calendar = findViewById(R.id.main_calendar_button);
@@ -117,6 +118,7 @@ public class MainActivity extends AppCompatActivity implements
 
     }
 
+    // These functions hide the current fragments and open the specified fragment
     @Override
     public void ShowEventFragment(Bundle bundle) {
         String tag = NewEventFragment.class.getCanonicalName();
@@ -202,6 +204,7 @@ public class MainActivity extends AppCompatActivity implements
         }
     }
 
+    // Called to hide whatever fragment is open
     private void HideOpenFragment() {
         if(eventFragment != null)fManager.beginTransaction().hide(eventFragment).commit();
         if(sessionFragment != null)fManager.beginTransaction().hide(sessionFragment).commit();
@@ -209,6 +212,7 @@ public class MainActivity extends AppCompatActivity implements
         if(userFragment != null)fManager.beginTransaction().hide(userFragment).commit();
     }
 
+    // Sets notifications for 15 minutes before event and at time of event
     @Override
     public void SetTimedNotification(int id) {
         String[] projection = new String[] {
@@ -252,7 +256,7 @@ public class MainActivity extends AppCompatActivity implements
         Log.d("Inside main", "at end of set notification");
     }
 
-    // TODO: Make sure to call this each time BEFORE deleting an entry from our local event table
+    // Cancels notifications for an event
     public void CancelTimedNotification(int id) {
         String[] projection = new String[] {
                 MyContentProvider.COLUMN_EVENTS_ID,

@@ -16,11 +16,13 @@ import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 
+// This is meant to send out a notification whenever a broadcast is caught by it
 public class AlarmReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
         Log.d("Inside receiver", "Just got a broadcast");
+        // Reschedules all the notifications when the phone reboots
         if(intent.getAction() != null && intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)) {
             String[] projection = new String[] {
                     MyContentProvider.COLUMN_EVENTS_ID,
@@ -52,6 +54,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             return;
         }
 
+        // Find the specified event
         String[] projection = new String[] {
                 MyContentProvider.COLUMN_EVENTS_ID,
                 MyContentProvider.COLUMN_EVENTS_NAME,
@@ -71,6 +74,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             return;
         }
 
+        // Make the notification using the information from the query
         String title = cursor.getString(
                 cursor.getColumnIndexOrThrow(MyContentProvider.COLUMN_EVENTS_NAME));
         String session = cursor.getString(
@@ -81,6 +85,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             session = "";
 
         if(type.equals("early")) {
+            // Enters here to send a notification 15 minutes before event
             NotificationManager manager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
             Notification.Builder builder = new Notification.Builder(context)
                     .setContentTitle(title + " Starts Soon")
@@ -107,47 +112,19 @@ public class AlarmReceiver extends BroadcastReceiver {
                 manager.notify(2, builder.build());
             }
         }
-        else if(type.equals("ontime")) {
-            Log.d("Inside receiver", "Inside ontime");
 
-//            PendingIntent contentIntent = PendingIntent.getActivity(context, 0,
-//                    new Intent(context, MainActivity.class), 0);
-//            Log.d("Inside Receiver", "after get activity");
-//            NotificationCompat.Builder mBuilder =
-//                    new NotificationCompat.Builder(context)
-//                            .setSmallIcon(R.drawable.leftarrow)
-//                            .setContentTitle("My notification")
-//                            .setContentText("Hello World!");
-//            mBuilder.setContentIntent(contentIntent);
-//            mBuilder.setDefaults(Notification.DEFAULT_SOUND);
-//            mBuilder.setAutoCancel(true);
-//            Log.d("Inside Receiver", "made the builder");
-//            NotificationManager mNotificationManager =
-//                    (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-//            Log.d("Inside receiver", "about to send notification");
-//            mNotificationManager.notify(1, mBuilder.build());
-//            Log.d("Inside receiver", "sent notification");
+        else if(type.equals("ontime")) {
+            // Enters here to send a notification at the time of the event
+            Log.d("Inside receiver", "Inside ontime");
 
             NotificationManager manager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
             Notification.Builder builder = new Notification.Builder(context)
                     .setContentTitle(title + " Starts Right Now")
                     .setContentText("Event " + title + "starts now. Click to navigate to app.")
-                    .setSmallIcon(R.mipmap.ic_launcher_round)
+                    .setSmallIcon(R.drawable.clock_icon)
                     .setWhen(System.currentTimeMillis())
                     .setOnlyAlertOnce(true);
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-            {
-                String channelId = "Your_channel_id";
-                NotificationChannel channel = new NotificationChannel(
-                        channelId,
-                        "Channel human readable title",
-                        NotificationManager.IMPORTANCE_HIGH);
-                manager.createNotificationChannel(channel);
-                builder.setChannelId(channelId);
-            }
-
-            //manager.notify(1, builder.build());
             Intent notification_intent = new Intent(context, MainActivity.class);
             Bundle bundle = new Bundle();
             Log.d("Inside receiver", "Middle of ontime");
