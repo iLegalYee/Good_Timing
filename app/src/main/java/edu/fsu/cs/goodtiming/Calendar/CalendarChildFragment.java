@@ -36,6 +36,7 @@ public class CalendarChildFragment extends Fragment {
         calendar = (CalendarView) rootView.findViewById(R.id.calendar_view);
         date = calendar.getDate();
 
+        // When a day is clicked on the calendar, this opens the showevent fragment for the clicked date
         calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView calendarView, int i, int i1, int i2) {

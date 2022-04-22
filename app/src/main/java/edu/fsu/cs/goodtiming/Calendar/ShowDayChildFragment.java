@@ -14,14 +14,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.provider.CalendarContract;
 import android.text.format.DateFormat;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -85,6 +83,7 @@ public class ShowDayChildFragment extends Fragment {
         tempCalendar.set(bundle.getInt("year"), bundle.getInt("month") - 1, bundle.getInt("day"));
         final long timeShown = tempCalendar.getTimeInMillis();
 
+        // Makes it so that the arrow buttons navigate to different days to show their events
         left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -116,10 +115,165 @@ public class ShowDayChildFragment extends Fragment {
         else {
             header.setText(bundle.getInt("month") + "/" + bundle.getInt("day") +
                     "/" + bundle.getInt("year"));
+        }
 
-            // Calls the query function below
-            // This is only a query to the default android calendar
-            // Our local app event and task tables will be queried and listed later
+        // Making the recycler view
+        List<ExamData> list = new ArrayList<ExamData>();
+        list = getData(bundle.getInt("year"),
+                bundle.getInt("month"), bundle.getInt("day"));
+
+        recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
+        listiner = new ClickListener() {
+            @Override
+            public void click(int index, int id, String calendar){
+                Bundle bundle = new Bundle();
+                bundle.putInt("id", id);
+                bundle.putString("calendar", calendar);
+                ((CalendarFragment) getParentFragment()).ShowEventChild(bundle);
+            }
+        };
+        adapter = new RecyclerAdapter(list, getActivity(),listiner);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        return rootView;
+    }
+
+    // This only queries the default android calendar for events on a specific day
+    // Thus, a full list of the events and tasks for the day would require a
+    // call to QueryAppEvents() and QueryAppTasks() as well
+    // The "month - 1" is necessary because queries use 1 less for the month
+    //    (e.g. must query using month = 3 for april, not 4 like you would think)
+    public Cursor QueryAndroidCalendar(int year, int month, int day) {
+        String[] projection = new String[] {
+                CalendarContract.Events._ID,
+                CalendarContract.Events.TITLE,
+                CalendarContract.Events.DESCRIPTION,
+                CalendarContract.Events.DTSTART,
+                CalendarContract.Events.RDATE,
+                CalendarContract.Events.RRULE,
+                CalendarContract.Events.ALL_DAY,
+                CalendarContract.Events.EVENT_LOCATION,
+                CalendarContract.Events.DURATION };
+
+        Calendar startTime = Calendar.getInstance();
+        startTime.set(year, month - 1, day, 0, 0, 0);
+        Calendar endTime= Calendar.getInstance();
+        endTime.set(year, month - 1, day, 23, 59, 59);
+
+        String selection = "(( " + CalendarContract.Events.DTSTART + " >= " + startTime.getTimeInMillis() + " ) AND ( " + CalendarContract.Events.DTSTART + " <= " + endTime.getTimeInMillis() + " ) AND ( deleted != 1 ))";
+        return getActivity().getContentResolver().query(CalendarContract.Events.CONTENT_URI, projection, selection, null, null);
+    }
+
+    // Returns a cursor pointing to the events in the local app calendar for the specified day
+    public Cursor QueryAppEvents(int year, int month, int day) {
+        String[] projection = new String[] {
+                MyContentProvider.COLUMN_EVENTS_ID,
+                MyContentProvider.COLUMN_EVENTS_NAME,
+                MyContentProvider.COLUMN_EVENTS_DESCRIPTION,
+                MyContentProvider.COLUMN_EVENTS_TIME,
+                MyContentProvider.COLUMN_EVENTS_DATE,
+                MyContentProvider.COLUMN_EVENTS_REPEAT,
+                MyContentProvider.COLUMN_EVENTS_LOCATION,
+                MyContentProvider.COLUMN_EVENTS_DURATION,
+                MyContentProvider.COLUMN_EVENTS_IS_SESSION};
+
+        Calendar startTime = Calendar.getInstance();
+        startTime.set(year, month - 1, day, 0, 0, 0);
+        Calendar endTime= Calendar.getInstance();
+        endTime.set(year, month - 1, day, 23, 59, 59);
+
+        String selection = "(( " + MyContentProvider.COLUMN_EVENTS_TIME + " >= " + startTime.getTimeInMillis() + " ) AND ( " + MyContentProvider.COLUMN_EVENTS_TIME + " <= " + endTime.getTimeInMillis() + " ))";
+        return getActivity().getContentResolver().query(MyContentProvider.EVENTS_CONTENT_URI, projection, selection, null, null);
+    }
+
+    // *********UNTESTED***********
+    public Cursor QueryAppTasks(int year, int month, int day) {
+        String[] projection = new String[] {
+                MyContentProvider.COLUMN_TASKS_ID,
+                MyContentProvider.COLUMN_TASKS_NAME,
+                MyContentProvider.COLUMN_TASKS_DESCRIPTION,
+                MyContentProvider.COLUMN_TASKS_DEADLINE};
+
+        String selection = "( " + MyContentProvider.COLUMN_TASKS_DEADLINE + " == " + month + "/" + day + "/" + year + " )";
+        return getActivity().getContentResolver().query(MyContentProvider.TASKS_CONTENT_URI, projection, selection, null, null);
+    }
+
+    // Returns data for the RecyclerView
+    private List<ExamData> getData(int year, int month, int day)
+    {
+        List<ExamData> list = new ArrayList<>();
+
+        // Querying the android calendar and adding those events for the day to the list
+        Cursor cursor = QueryAndroidCalendar(year, month, day);
+        if(cursor != null) {
+            while(cursor.moveToNext()) {
+                // Sorting through the data returned
+                String title = cursor.getString(cursor.getColumnIndexOrThrow("title"));
+                String datetime = cursor.getString(cursor.getColumnIndexOrThrow("dtstart"));
+                String description = cursor.getString(cursor.getColumnIndexOrThrow("description"));
+                String allday = cursor.getString(cursor.getColumnIndexOrThrow("allDay"));
+                int id = cursor.getInt(cursor.getColumnIndexOrThrow(CalendarContract.Events._ID));
+                if(title == null || title.equals(""))
+                    title = "No Title";
+                if(allday != null && allday.equals("1"))
+                    datetime = "All Day Event";
+                else {
+                    if(datetime == null || datetime.equals(""))
+                        datetime = "No Date or Time";
+                    else{
+                        Date date = new Date(Long.parseLong(datetime));
+                        if(date != null)
+                            datetime = "Start at " + DateFormat.format("HH", date).toString() +
+                                    ":" + DateFormat.format("mm", date).toString();
+                        else
+                            datetime = "No Start Time";
+                    }
+                }
+                if(description == null || description.equals(""))
+                    description = "No Description";
+                // Add the event to the list
+                list.add(new ExamData(title, datetime, description, id, "androidcalendar"));
+            }
+        }
+
+        // Querying the local app calendar and putting those events in the list like above
+        Cursor appcursor = QueryAppEvents(year, month, day);
+        if(appcursor != null) {
+            Log.d("Inside showday", "App query count: " + appcursor.getCount());
+            while(appcursor.moveToNext()) {
+                String title = appcursor.getString(appcursor.getColumnIndexOrThrow(MyContentProvider.COLUMN_EVENTS_NAME));
+                String datetime = appcursor.getString(appcursor.getColumnIndexOrThrow(MyContentProvider.COLUMN_EVENTS_TIME));
+                String description = appcursor.getString(appcursor.getColumnIndexOrThrow(MyContentProvider.COLUMN_EVENTS_DESCRIPTION));
+                int id = appcursor.getInt(appcursor.getColumnIndexOrThrow(MyContentProvider.COLUMN_EVENTS_ID));
+                if(title == null || title.equals(""))
+                    title = "No Title";
+                else {
+                    if(datetime == null || datetime.equals(""))
+                        datetime = "No Start Time";
+                    else{
+                        Date date = new Date(Long.parseLong(datetime));
+                        if(date != null)
+                            datetime = "Start at " + DateFormat.format("HH", date).toString() +
+                                    ":" + DateFormat.format("mm", date).toString();
+                        else
+                            datetime = "No Start Time";
+                    }
+                }
+                if(description == null || description.equals(""))
+                    description = "No Description";
+                list.add(new ExamData(title, datetime, description, id, "appcalendar"));
+            }
+        }
+
+        return list;
+    }
+}
+
+
+// Calls the query function below
+// This is only a query to the default android calendar
+// Our local app event and task tables will be queried and listed later
 //            cursor = QueryAndroidCalendar(bundle.getInt("year"),
 //                    bundle.getInt("month"), bundle.getInt("day"));
 //            if(cursor == null)
@@ -127,12 +281,12 @@ public class ShowDayChildFragment extends Fragment {
 //            if(cursor != null) {
 //                Log.d("Inside showdayfragment", "cursor from query is not null");
 
-                // This following loop is very important!!
-                // It loops through the values returned from the query and dynamically
-                // creates a CLICKABLE TextView for each entry
-                // This loop links each TextView to an OnClickListener so that
-                // clicking on it opens the ShowEventChildFragment with the corresponding
-                // event id passed in
+// This following loop is very important!!
+// It loops through the values returned from the query and dynamically
+// creates a CLICKABLE TextView for each entry
+// This loop links each TextView to an OnClickListener so that
+// clicking on it opens the ShowEventChildFragment with the corresponding
+// event id passed in
 //                TextView currentText;
 //                TextView previousText = (TextView) rootView.findViewById(R.id.show_day_text);
 //            String[] projection = new String[] {
@@ -188,178 +342,3 @@ public class ShowDayChildFragment extends Fragment {
 //                    previousText = currentText;
 //                }
 //            }
-        }
-
-//        setContentView(R.layout.activity_exam);
-
-        List<ExamData> list = new ArrayList<ExamData>();
-        list = getData(bundle.getInt("year"),
-                bundle.getInt("month"), bundle.getInt("day"));
-
-        recyclerView
-                = (RecyclerView) rootView.findViewById(
-                R.id.recyclerView);
-        listiner = new ClickListener() {
-            @Override
-            public void click(int index, int id, String calendar){
-                Toast.makeText(getContext(),"clicked item index is "+index,Toast.LENGTH_LONG).show();
-                Bundle bundle = new Bundle();
-                bundle.putInt("id", id);
-                bundle.putString("calendar", calendar);
-                ((CalendarFragment) getParentFragment()).ShowEventChild(bundle);
-            }
-        };
-        adapter
-                = new RecyclerAdapter(
-                list, getActivity(),listiner);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(
-                new LinearLayoutManager(getContext()));
-
-        return rootView;
-    }
-
-    // This only queries the default android calendar for events on a specific day
-    // Thus, a full list of the events and tasks for the day would require a
-    // call to QueryAppEvents() and QueryAppTasks() as well
-    // The "month - 1" is necessary because queries use 1 less for the month
-    //    (e.g. must query using month = 3 for april, not 4 like you would think)
-    public Cursor QueryAndroidCalendar(int year, int month, int day) {
-        String[] projection = new String[] {
-                CalendarContract.Events._ID,
-                CalendarContract.Events.TITLE,
-                CalendarContract.Events.DESCRIPTION,
-                CalendarContract.Events.DTSTART,
-                CalendarContract.Events.RDATE,
-                CalendarContract.Events.RRULE,
-                CalendarContract.Events.ALL_DAY,
-                CalendarContract.Events.EVENT_LOCATION,
-                CalendarContract.Events.DURATION };
-
-        Calendar startTime = Calendar.getInstance();
-        startTime.set(year, month - 1, day, 0, 0, 0);
-        Calendar endTime= Calendar.getInstance();
-        endTime.set(year, month - 1, day, 23, 59, 59);
-
-        String selection = "(( " + CalendarContract.Events.DTSTART + " >= " + startTime.getTimeInMillis() + " ) AND ( " + CalendarContract.Events.DTSTART + " <= " + endTime.getTimeInMillis() + " ) AND ( deleted != 1 ))";
-        return getActivity().getContentResolver().query(CalendarContract.Events.CONTENT_URI, projection, selection, null, null);
-    }
-
-    // *********UNTESTED*********
-    public Cursor QueryAppEvents(int year, int month, int day) {
-        String[] projection = new String[] {
-                MyContentProvider.COLUMN_EVENTS_ID,
-                MyContentProvider.COLUMN_EVENTS_NAME,
-                MyContentProvider.COLUMN_EVENTS_DESCRIPTION,
-                MyContentProvider.COLUMN_EVENTS_TIME,
-                MyContentProvider.COLUMN_EVENTS_DATE,
-                MyContentProvider.COLUMN_EVENTS_REPEAT,
-                MyContentProvider.COLUMN_EVENTS_LOCATION,
-                MyContentProvider.COLUMN_EVENTS_DURATION,
-                MyContentProvider.COLUMN_EVENTS_IS_SESSION};
-
-        Calendar startTime = Calendar.getInstance();
-        startTime.set(year, month - 1, day, 0, 0, 0);
-        Calendar endTime= Calendar.getInstance();
-        endTime.set(year, month - 1, day, 23, 59, 59);
-
-        String selection = "(( " + MyContentProvider.COLUMN_EVENTS_TIME + " >= " + startTime.getTimeInMillis() + " ) AND ( " + MyContentProvider.COLUMN_EVENTS_TIME + " <= " + endTime.getTimeInMillis() + " ))";
-        return getActivity().getContentResolver().query(MyContentProvider.EVENTS_CONTENT_URI, projection, selection, null, null);
-    }
-
-    // *********UNTESTED***********
-    public Cursor QueryAppTasks(int year, int month, int day) {
-        String[] projection = new String[] {
-                MyContentProvider.COLUMN_TASKS_ID,
-                MyContentProvider.COLUMN_TASKS_NAME,
-                MyContentProvider.COLUMN_TASKS_DESCRIPTION,
-                MyContentProvider.COLUMN_TASKS_DEADLINE};
-
-        String selection = "( " + MyContentProvider.COLUMN_TASKS_DEADLINE + " == " + month + "/" + day + "/" + year + " )";
-        return getActivity().getContentResolver().query(MyContentProvider.TASKS_CONTENT_URI, projection, selection, null, null);
-    }
-//
-//    @Override
-//    public void onBackPressed()
-//    {
-//        super.onBackPressed();
-//    }
-
-    // Sample data for RecyclerView
-    private List<ExamData> getData(int year, int month, int day)
-    {
-        Intent intent = new Intent(getActivity(), AlarmReceiver.class);
-        intent.putExtra("id", 1);
-        intent.putExtra("type", "ontime");
-        getActivity().sendBroadcast(intent);
-        List<ExamData> list = new ArrayList<>();
-//        list.add(new ExamData("First Exam",
-//                "May 23, 2015",
-//                "Best Of Luck"));
-//        list.add(new ExamData("Second Exam",
-//                "June 09, 2015",
-//                "b of l"));
-//        list.add(new ExamData("My Test Exam",
-//                "April 27, 2017",
-//                "This is testing exam .."));
-        Cursor cursor = QueryAndroidCalendar(year, month, day);
-        if(cursor != null) {
-            while(cursor.moveToNext()) {
-                String title = cursor.getString(cursor.getColumnIndexOrThrow("title"));
-                String datetime = cursor.getString(cursor.getColumnIndexOrThrow("dtstart"));
-                String description = cursor.getString(cursor.getColumnIndexOrThrow("description"));
-                String allday = cursor.getString(cursor.getColumnIndexOrThrow("allDay"));
-                int id = cursor.getInt(cursor.getColumnIndexOrThrow(CalendarContract.Events._ID));
-                if(title == null || title.equals(""))
-                    title = "No Title";
-                if(allday != null && allday.equals("1"))
-                    datetime = "All Day Event";
-                else {
-                    if(datetime == null || datetime.equals(""))
-                        datetime = "No Date or Time";
-                    else{
-                        Date date = new Date(Long.parseLong(datetime));
-                        if(date != null)
-                            datetime = "Start at " + DateFormat.format("HH", date).toString() +
-                                    ":" + DateFormat.format("mm", date).toString();
-                        else
-                            datetime = "No Start Time";
-                    }
-                }
-                if(description == null || description.equals(""))
-                    description = "No Description";
-                list.add(new ExamData(title, datetime, description, id, "androidcalendar"));
-            }
-        }
-
-        Cursor appcursor = QueryAppEvents(year, month, day);
-        if(appcursor != null) {
-            Log.d("Inside showday", "App query count: " + appcursor.getCount());
-            while(appcursor.moveToNext()) {
-                String title = appcursor.getString(appcursor.getColumnIndexOrThrow(MyContentProvider.COLUMN_EVENTS_NAME));
-                String datetime = appcursor.getString(appcursor.getColumnIndexOrThrow(MyContentProvider.COLUMN_EVENTS_TIME));
-                String description = appcursor.getString(appcursor.getColumnIndexOrThrow(MyContentProvider.COLUMN_EVENTS_DESCRIPTION));
-                int id = appcursor.getInt(appcursor.getColumnIndexOrThrow(MyContentProvider.COLUMN_EVENTS_ID));
-                if(title == null || title.equals(""))
-                    title = "No Title";
-                else {
-                    if(datetime == null || datetime.equals(""))
-                        datetime = "No Start Time";
-                    else{
-                        Date date = new Date(Long.parseLong(datetime));
-                        if(date != null)
-                            datetime = "Start at " + DateFormat.format("HH", date).toString() +
-                                    ":" + DateFormat.format("mm", date).toString();
-                        else
-                            datetime = "No Start Time";
-                    }
-                }
-                if(description == null || description.equals(""))
-                    description = "No Description";
-                list.add(new ExamData(title, datetime, description, id, "appcalendar"));
-            }
-        }
-
-        return list;
-    }
-}
