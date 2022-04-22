@@ -1,24 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DesignSurface">
-    <option name="filePathToZoomLevelMap">
-      <map>
-        <entry key="..\:/Users/curly/AndroidStudioProjects/Good_Timing/app/src/main/res/drawable/ic_launcher_background.xml" value="0.3525" />
-        <entry key="..\:/Users/curly/AndroidStudioProjects/Good_Timing/app/src/main/res/drawable/images.xml" value="0.2805" />
-        <entry key="..\:/Users/curly/AndroidStudioProjects/Good_Timing/app/src/main/res/layout/activity_main.xml" value="0.2109375" />
-        <entry key="..\:/Users/curly/AndroidStudioProjects/Good_Timing/app/src/main/res/layout/activity_user_journal_entry.xml" value="0.33" />
-        <entry key="..\:/Users/curly/AndroidStudioProjects/Good_Timing/app/src/main/res/layout/fragment_calendar.xml" value="0.32447916666666665" />
-        <entry key="..\:/Users/curly/AndroidStudioProjects/Good_Timing/app/src/main/res/layout/fragment_event.xml" value="0.32447916666666665" />
-        <entry key="..\:/Users/curly/AndroidStudioProjects/Good_Timing/app/src/main/res/layout/fragment_session.xml" value="0.32447916666666665" />
-        <entry key="..\:/Users/curly/AndroidStudioProjects/Good_Timing/app/src/main/res/layout/fragment_user.xml" value="0.5" />
-        <entry key="..\:/Users/curly/AndroidStudioProjects/Good_Timing/app/src/main/res/layout/fragment_user__journal.xml" value="0.36102564102564105" />
-        <entry key="..\:/Users/curly/AndroidStudioProjects/Good_Timing/app/src/main/res/layout/fragment_user_journal.xml" value="0.25" />
-        <entry key="..\:/Users/curly/AndroidStudioProjects/Good_Timing/app/src/main/res/menu/settings_popup_menu.xml" value="0.3151041666666667" />
-        <entry key="app/src/main/res/layout/fragment_show_day_child.xml" value="0.17664023071377072" />
-        <entry key="app/src/main/res/layout/fragment_show_event_child.xml" value="0.1" />
-      </map>
-    </option>
-  </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>

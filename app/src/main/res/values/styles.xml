@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Light_Theme"
+        parent="Theme.AppCompat.Light">
+        <item name="colorPrimary">#5f9dd6</item>
+        <item name="colorPrimaryDark">#093d62</item>
+        <item name="colorAccent">#e2af76</item>
+        <item name="android:textColorPrimary">#093d62</item>
+        <item name="android:windowBackground">@drawable/bg</item>
+    </style>
+
+</resources>

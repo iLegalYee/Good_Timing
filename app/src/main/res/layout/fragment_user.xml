@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,6 +8,18 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/rectangle"
+            android:scaleType="fitXY"
+            android:background="@android:color/transparent"
+            android:alpha="0.6"
+            android:layout_below="@+id/journal_label_user_fragment"
+            android:layout_above="@+id/analytics"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"/>
 
         <ImageButton
             android:id="@+id/user_settings_button"
@@ -16,20 +29,24 @@
             android:layout_marginStart="25dp"
             android:layout_marginTop="25dp"
             android:layout_marginEnd="25dp"
-            android:background="#fafafa"
             android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
             android:scaleType="fitXY"
-            android:src="@drawable/settings" />
+            android:src="@drawable/settings"
+            app:tint="#093d62" />
 
         <TextView
             android:id="@+id/journal_label_user_fragment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="25dp"
             android:layout_below="@+id/user_settings_button"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="25dp"
+            android:layout_marginBottom="25dp"
             android:text="Journal"
             android:textSize="20dp"
-            />
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/new_journalEntry_button"
@@ -38,8 +55,7 @@
             android:text="Add Entry"
             android:layout_alignBaseline="@id/journal_label_user_fragment"
             android:layout_toRightOf="@id/journal_label_user_fragment"
-            android:layout_marginEnd="25dp"
-            />
+            android:layout_marginEnd="25dp" />
 
         <FrameLayout
             android:id="@+id/child_user_fragment_container"
@@ -47,19 +63,39 @@
             android:layout_height="300dp"
             android:layout_below="@id/journal_label_user_fragment"
             android:layout_marginStart="25dp"
-            android:layout_marginEnd="25dp"
-            >
-
+            android:layout_marginEnd="25dp">
         </FrameLayout>
 
         <TextView
+            android:id="@+id/analytics"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/child_user_fragment_container"
-            android:layout_marginTop="25dp"
             android:layout_marginStart="25dp"
-            android:textSize="20dp"
-            android:text="Analytics"/>
+            android:layout_marginTop="50dp"
+            android:text="Analytics"
+            android:textStyle="bold"
+            android:textSize="20dp" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/rectangle"
+            android:scaleType="fitXY"
+            android:background="@android:color/transparent"
+            android:alpha="0.6"
+            android:layout_below="@+id/analytics"
+            android:layout_alignBottom="@+id/graph"
+            android:layout_marginTop="25dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"/>
+
+        <com.jjoe64.graphview.GraphView
+            android:id="@+id/graph"
+            android:layout_width="wrap_content"
+            android:layout_height="300dp"
+            android:layout_margin="25dp"
+            android:layout_below="@+id/analytics" />
 
     </RelativeLayout>
 </ScrollView>

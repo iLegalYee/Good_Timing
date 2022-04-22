@@ -3,16 +3,16 @@ package edu.fsu.cs.goodtiming.Timer;
 import android.annotation.SuppressLint;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-
 import android.os.CountDownTimer;
 import android.provider.Settings;
 import android.text.InputFilter;
@@ -29,14 +29,20 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
+import edu.fsu.cs.goodtiming.MyContentProvider;
+
 
 import edu.fsu.cs.goodtiming.MediaPlayerService;
 import edu.fsu.cs.goodtiming.R;
 import edu.fsu.cs.goodtiming.Timer.BreakDialog;
 import edu.fsu.cs.goodtiming.Utils.NewEventFragment;
 import edu.fsu.cs.goodtiming.Utils.Todomain;
+import edu.fsu.cs.goodtiming.Calendar.CalendarFragment;
 
 public class SessionFragment extends Fragment {
     public static final String CHANNEL_TIMER = "channelTimer";
@@ -56,12 +62,7 @@ public class SessionFragment extends Fragment {
     private Intent serviceIntent;
     private Button btnSet;
     private EditText editTextHrs, editTextMins, editTextSecs;
-
-
-
-
-
-
+    private int timePassed;
 
     public SessionFragment() {
         // Required empty public constructor
@@ -87,7 +88,6 @@ public class SessionFragment extends Fragment {
 
         final View rootView = inflater.inflate(R.layout.fragment_session, container, false);
 
-
         // If you want to find a view in here, use rootView.findViewById instead of getActivity().findViewById
         textViewTime = rootView.findViewById(R.id.textviewCountDown);
         btnStartPause = rootView.findViewById(R.id.btnStartPause);
@@ -101,6 +101,7 @@ public class SessionFragment extends Fragment {
         editTextMins.setFilters(new InputFilter[]{new InputFilterMinMax(1,60)});
         editTextSecs.setFilters(new InputFilter[]{new InputFilterMinMax(1,60)});
         btnSet = rootView.findViewById(R.id.btnSet);
+        timePassed = 0;
 
         btnSet.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,13 +134,7 @@ public class SessionFragment extends Fragment {
             }
         });
 
-        
-
         serviceIntent = new Intent(getActivity(), MediaPlayerService.class);
-
-
-
-
         btnStartPause.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -169,9 +164,7 @@ public class SessionFragment extends Fragment {
             }
         });
 
-
         updatetimer2();
-
 
         btnPlay.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -187,7 +180,6 @@ public class SessionFragment extends Fragment {
                 }
             }
         });
-
 
         return rootView;
     }
@@ -236,20 +228,30 @@ public class SessionFragment extends Fragment {
         countDownTimer = new CountDownTimer(timeLeftInMillis, 200) {
             @Override
             public void onTick(long millisUntilFinished) {
-                    timeLeftInMillis = millisUntilFinished;
-                    updatetimer2();
-                    callNotification();
+                timeLeftInMillis = millisUntilFinished;
+                updatetimer2();
+                callNotification();
+                timePassed += 1;
 
             }
 
             @Override
             public void onFinish() {
-                    timerRunning = false;
-                    btnStartPause.setText("Start");
-                    btnStartPause.setVisibility(View.INVISIBLE);
-                    btnReset.setVisibility(View.VISIBLE);
-                    btnBreak.setVisibility(View.INVISIBLE);
-                    callNotification();
+                timerRunning = false;
+                btnStartPause.setText("Start");
+                btnStartPause.setVisibility(View.INVISIBLE);
+                btnReset.setVisibility(View.VISIBLE);
+                btnBreak.setVisibility(View.INVISIBLE);
+                callNotification();
+
+                ContentValues values = new ContentValues();
+                SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+                String date = format.format(Calendar.getInstance().getTime());
+                values.put(MyContentProvider.COLUMN_ANALYTICS_TIME, date);
+                values.put(MyContentProvider.COLUMN_ANALYTICS_DATA, timePassed);
+                Uri uri = getActivity().getContentResolver().insert(MyContentProvider.ANALYTICS_CONTENT_URI, values);
+                timePassed = 0;
+
             }
         }.start();
         timerRunning = true;
@@ -321,6 +323,7 @@ public class SessionFragment extends Fragment {
         builder.setContentTitle("Timer");
         builder.setContentText(hms);
         builder.setSmallIcon(R.drawable.ic_time);
+        builder.setOnlyAlertOnce(true);
         builder.setAutoCancel(true);
       if (hms.equals("00:00:00")){
             builder.setSound(Settings.System.DEFAULT_NOTIFICATION_URI);

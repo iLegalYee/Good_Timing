@@ -2,10 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/settings_theme"
-        android:title="Change theme"/>
-
-    <item
         android:id="@+id/settings_delete"
         android:title="Delete all entries" />
 
