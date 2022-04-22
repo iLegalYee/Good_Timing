@@ -29,6 +29,8 @@ public class RecyclerViewTouchHelper extends ItemTouchHelper.SimpleCallback {
         return false;
     }
 
+
+
     @Override
     public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
 
@@ -44,6 +46,7 @@ public class RecyclerViewTouchHelper extends ItemTouchHelper.SimpleCallback {
                     adapter.deleteTask(position);
                 }
             });
+            // code to asks if the user is sure they want to delete the task after they swipe to display the action.
             builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -58,6 +61,8 @@ public class RecyclerViewTouchHelper extends ItemTouchHelper.SimpleCallback {
 
     }
 
+
+    // setting up the colors for the delete and edit actions inside the to do list
     @Override
     public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
 

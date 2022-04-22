@@ -29,6 +29,7 @@ import edu.fsu.cs.goodtiming.User.UserFragment;
 
 public class Todomain extends AppCompatActivity implements OnDialogCloseListner{
 
+    // Implementing variables
 
     FragmentManager fManager;
     EventFragment eventFragment = null;
@@ -66,6 +67,7 @@ public class Todomain extends AppCompatActivity implements OnDialogCloseListner{
         Bundle bundle4 = new Bundle();
         bundle4.putString("show", "user");
 
+
         final Intent intent1 = new Intent(this, MainActivity.class).putExtras(bundle1);
         final Intent intent2 = new Intent(this, MainActivity.class).putExtras(bundle2);
         final Intent intent3 = new Intent(this, MainActivity.class).putExtras(bundle3);
@@ -77,6 +79,9 @@ public class Todomain extends AppCompatActivity implements OnDialogCloseListner{
 //                startActivity(intent1);
 //            }
 //        });
+
+        // Listeners to navigate the navigation menu
+
         session.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -96,6 +101,8 @@ public class Todomain extends AppCompatActivity implements OnDialogCloseListner{
             }
         });
 
+
+        // Recycler view code to display tasks
 
         mRecyclerView = findViewById(R.id.recyclerview);
         fab = findViewById(R.id.fab);
@@ -132,6 +139,7 @@ public class Todomain extends AppCompatActivity implements OnDialogCloseListner{
     }
 
 
+// functions to open the fragments in the navigation menu
 
     public void ShowEventFragment(Bundle bundle) {
         Log.d("Inside Main", "ShowEventFragment");
@@ -248,6 +256,8 @@ public class Todomain extends AppCompatActivity implements OnDialogCloseListner{
         }
 
     }
+
+    // code to display the menu that has the add task button.
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

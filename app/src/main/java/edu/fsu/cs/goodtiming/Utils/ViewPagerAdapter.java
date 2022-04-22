@@ -15,6 +15,8 @@ import edu.fsu.cs.goodtiming.R;
 
 public class ViewPagerAdapter extends PagerAdapter {
 
+    // here we get the arrays of the slider, the content description and image and we move them accordingly to display the different slides.
+
     Context context;
 
     int images[] = {
@@ -55,6 +57,8 @@ public class ViewPagerAdapter extends PagerAdapter {
         return view == (LinearLayout) object;
     }
 
+    // here we inflate the layout and display the slides
+
     @NonNull
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
@@ -74,6 +78,8 @@ public class ViewPagerAdapter extends PagerAdapter {
         return view;
     }
 
+
+    //destroyer
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
 

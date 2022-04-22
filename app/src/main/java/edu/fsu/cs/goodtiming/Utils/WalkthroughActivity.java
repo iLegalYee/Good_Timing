@@ -31,6 +31,8 @@ public class WalkthroughActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_walkthrough);
 
+        // setting the variables for the buttons of the slider.
+
         backbtn = findViewById(R.id.backbtn);
         nextbtn = findViewById(R.id.nextbtn);
         skipbtn = findViewById(R.id.skipButton);
@@ -83,6 +85,8 @@ public class WalkthroughActivity extends AppCompatActivity {
         mSlideViewPager.addOnPageChangeListener(viewListener);
 
     }
+
+    // getting the text size and colors from the dots in the bottom of the slider screen that indicates in which slide the user is in.
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     public void setUpindicator(int position){

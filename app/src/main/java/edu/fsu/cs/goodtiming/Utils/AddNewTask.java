@@ -20,6 +20,8 @@ import edu.fsu.cs.goodtiming.R;
 
 public class AddNewTask extends BottomSheetDialogFragment {
 
+    // we call the database because here we will record when the user saves a task and gets into the database.
+
     public static final String TAG = "AddNewTask";
 
     private EditText mEditText;
@@ -82,6 +84,7 @@ public class AddNewTask extends BottomSheetDialogFragment {
             }
         });
 
+        // setting up the save button to update the database and save the tasks the user made to display them later on.
         boolean finalIsUpdate = isUpdate;
         mSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override

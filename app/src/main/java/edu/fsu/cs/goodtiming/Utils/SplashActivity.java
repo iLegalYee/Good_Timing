@@ -10,6 +10,8 @@ import edu.fsu.cs.goodtiming.R;
 
 public class SplashActivity extends AppCompatActivity {
 
+    // code for the duration of the splash screen
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
