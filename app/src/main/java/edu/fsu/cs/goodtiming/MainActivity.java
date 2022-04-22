@@ -31,7 +31,8 @@ public class MainActivity extends AppCompatActivity implements
         EventFragment.OnEventFragmentInteractionListener,
         SessionFragment.OnSessionFragmentInteractionListener,
         CalendarFragment.OnCalendarFragmentInteractionListener,
-        UserFragment.OnUserFragmentInteractionListener
+        UserFragment.OnUserFragmentInteractionListener,
+        NewEventFragment.OnNewEventFragmentInteractionListener
 {
     FragmentManager fManager;
     NewEventFragment eventFragment = null;
@@ -51,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements
 
         RequestPermission(Manifest.permission.READ_CALENDAR);
         RequestPermission(Manifest.permission.WRITE_CALENDAR);
+        RequestPermission(Manifest.permission.ACCESS_NOTIFICATION_POLICY);
         fManager = getSupportFragmentManager();
         ShowEventFragment(null);
 
@@ -207,7 +209,7 @@ public class MainActivity extends AppCompatActivity implements
         if(userFragment != null)fManager.beginTransaction().hide(userFragment).commit();
     }
 
-    // TODO: Make sure to call this when putting new events in the events table
+    @Override
     public void SetTimedNotification(int id) {
         String[] projection = new String[] {
                 MyContentProvider.COLUMN_EVENTS_ID,
@@ -224,7 +226,7 @@ public class MainActivity extends AppCompatActivity implements
         Cursor cursor = getContentResolver().query(MyContentProvider.EVENTS_CONTENT_URI,
                 projection, selection, null, null);
         if(cursor != null && cursor.moveToFirst()) {
-            long time = Integer.parseInt(cursor.getString(
+            long time = Long.parseLong(cursor.getString(
                     cursor.getColumnIndexOrThrow(MyContentProvider.COLUMN_EVENTS_TIME)));
             long earlytime = time - 900000;
             long timenow = Calendar.getInstance().getTimeInMillis();
@@ -247,6 +249,7 @@ public class MainActivity extends AppCompatActivity implements
                 alarmManager.set(AlarmManager.RTC_WAKEUP, time, pendingIntent);
             }
         }
+        Log.d("Inside main", "at end of set notification");
     }
 
     // TODO: Make sure to call this each time BEFORE deleting an entry from our local event table
@@ -271,7 +274,7 @@ public class MainActivity extends AppCompatActivity implements
             if (timeString == null || timeString.equals("")) {
                 return;
             }
-            long time = Integer.parseInt(timeString);
+            long time = Long.parseLong(timeString);
 
             AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
             Intent alarmIntent1 = new Intent(getApplicationContext(), AlarmReceiver.class);

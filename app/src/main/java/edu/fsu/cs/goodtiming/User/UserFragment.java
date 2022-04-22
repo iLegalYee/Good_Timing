@@ -5,9 +5,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,6 +21,10 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
 
+import java.util.Calendar;
+import java.util.Date;
+
+import edu.fsu.cs.goodtiming.MyContentProvider;
 import edu.fsu.cs.goodtiming.R;
 import edu.fsu.cs.goodtiming.Utils.NewEventFragment;
 import edu.fsu.cs.goodtiming.Utils.Todomain;
@@ -157,6 +164,32 @@ public class UserFragment extends Fragment {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    // Get analytics for last seven days
+    public Cursor QueryAnalytics() {
+        Date date = Calendar.getInstance().getTime();
+        Date startDate = new Date(date.getTime() - (7 * 24 * 60 * 60 * 1000));
+        int year = Integer.parseInt(DateFormat.format("yyyy", date).toString());
+        int month = Integer.parseInt(DateFormat.format("MM", date).toString());
+        int day = Integer.parseInt(DateFormat.format("dd", date).toString());
+
+        int startYear = Integer.parseInt(DateFormat.format("yyyy", startDate).toString());
+        int startMonth = Integer.parseInt(DateFormat.format("MM", startDate).toString());
+        int startDay = Integer.parseInt(DateFormat.format("dd", startDate).toString());
+
+        String[] projection = new String[] {
+                MyContentProvider.COLUMN_ANALYTICS_NAME,
+                MyContentProvider.COLUMN_ANALYTICS_TIME,
+                MyContentProvider.COLUMN_ANALYTICS_DATE};
+
+        Calendar startTime = Calendar.getInstance();
+        startTime.set(startYear, startMonth - 1, startDay, 0, 0, 0);
+        Calendar endTime= Calendar.getInstance();
+        endTime.set(year, month - 1, day, 23, 59, 59);
+
+        String selection = "(( " + MyContentProvider.COLUMN_EVENTS_TIME + " >= " + startTime.getTimeInMillis() + " ) AND ( " + MyContentProvider.COLUMN_EVENTS_TIME + " <= " + endTime.getTimeInMillis() + " ))";
+        return getActivity().getContentResolver().query(MyContentProvider.EVENTS_CONTENT_URI, projection, selection, null, null);
     }
 
 }

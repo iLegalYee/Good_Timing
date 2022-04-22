@@ -170,7 +170,7 @@ public class ShowEventChildFragment extends Fragment {
                         text2.setText("No Description");
 
                     tempString = cursor.getString(cursor.getColumnIndexOrThrow(MyContentProvider.COLUMN_EVENTS_TIME));
-                    Date tempDate = new Date(Integer.parseInt(tempString));
+                    Date tempDate = new Date(Long.parseLong(tempString));
                     if(tempString != null)
                         text3.setText("Start Time: " + DateFormat.format("HH", tempDate).toString() +
                                 ":" + DateFormat.format("mm", tempDate).toString());
@@ -240,7 +240,7 @@ public class ShowEventChildFragment extends Fragment {
                         text2.setText("No Description");
 
                     tempString = cursor.getString(cursor.getColumnIndexOrThrow(MyContentProvider.COLUMN_TASKS_DEADLINE));
-                    Date tempDate = new Date(Integer.parseInt(tempString));
+                    Date tempDate = new Date(Long.parseLong(tempString));
                     if(tempString != null)
                         text3.setText("Deadline: " + tempString);
                     else
