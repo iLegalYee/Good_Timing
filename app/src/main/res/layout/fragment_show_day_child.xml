@@ -10,10 +10,63 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/show_day_layout">
+
+        <Button
+            android:id="@+id/right_button"
+            android:layout_width="10dp"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/show_day_header"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/leftarrow"
+            android:scaleX="-.75"
+            android:scaleY=".75"
+            android:paddingTop="15dp"/>
+
+        <Button
+            android:id="@+id/left_button"
+            android:layout_width="15dp"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/show_day_header"
+            android:layout_alignParentLeft="true"
+            android:gravity="left"
+            android:paddingTop="15dp"
+            android:scaleX=".75"
+            android:scaleY=".75"
+            android:background="@drawable/leftarrow"/>
+
+        <TextView
+            android:id="@+id/show_day_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:paddingTop="30dp"
+            android:textStyle="bold"
+            android:textSize="25sp"
+            android:paddingBottom="25dp"
+            android:layout_centerHorizontal="true"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/show_day_recycler"
+            android:layout_below="@id/show_day_header">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:nestedScrollingEnabled="false"
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:overScrollMode="never"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/show_day_header" />
+            android:id="@+id/show_day_text"
+            android:layout_below="@id/show_day_recycler" />
+
+
 
     </RelativeLayout>
 
