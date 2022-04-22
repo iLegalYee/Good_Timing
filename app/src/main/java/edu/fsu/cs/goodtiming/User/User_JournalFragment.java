@@ -54,6 +54,7 @@ public class User_JournalFragment extends Fragment {
         arrayAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, entries);
         listView.setAdapter(arrayAdapter);
 
+        // Open entry in new activity if clicked on
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -89,6 +90,7 @@ public class User_JournalFragment extends Fragment {
         return rootView;
     }
 
+    // Method to delete an entry from the listview and sharedPreferences
     void deleteEntry(int i)
     {
         entries.remove(i);
@@ -102,5 +104,4 @@ public class User_JournalFragment extends Fragment {
                 .putStringSet("entries", entries_set)
                 .apply();
     }
-
 }
