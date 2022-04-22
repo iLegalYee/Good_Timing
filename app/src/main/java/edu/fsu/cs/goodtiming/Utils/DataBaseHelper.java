@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DataBaseHelper extends SQLiteOpenHelper {
-
+    // this is the database with the name of the columns we will use to display the entries of the to do list screen
     private SQLiteDatabase db;
 
     private static final String DATABASE_NAME = "TODO_DATABASE";

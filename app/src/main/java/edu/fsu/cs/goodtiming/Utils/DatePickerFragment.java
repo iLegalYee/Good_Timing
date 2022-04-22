@@ -13,7 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
-
+    // this is the code for the fragment of the date picker.
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 // Use the current date as the default date in the picker

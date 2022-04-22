@@ -63,7 +63,7 @@ public class NewEventFragment extends Fragment implements DatePickerDialog.OnDat
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-
+    // here is the code where the datepiccker gets the values from the calendar to later get them into the edit text of the date.
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
 
@@ -97,7 +97,7 @@ public class NewEventFragment extends Fragment implements DatePickerDialog.OnDat
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View rootView = inflater.inflate(R.layout.fragment_new_event, container, false);
-
+    // each day of the wek has a button that trhe user can activate to remind themselves what day of the week the event is happening on.
         btnSun = rootView.findViewById(R.id.Sunday);
         btnMon = rootView.findViewById(R.id.Monday);
         btnTue = rootView.findViewById(R.id.Tuesday);

@@ -1,7 +1,7 @@
 package edu.fsu.cs.goodtiming.Utils;
 
 public class ToDoModel {
-
+    // model of the to do list
     private String task;
     private int id, status;
 
