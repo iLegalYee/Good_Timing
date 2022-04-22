@@ -1,16 +1,10 @@
 package edu.fsu.cs.goodtiming.Calendar;
 
-import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
-
-import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.provider.CalendarContract;
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -20,15 +14,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
-import edu.fsu.cs.goodtiming.AlarmReceiver;
-import edu.fsu.cs.goodtiming.Calendar.CalendarFragment;
 import edu.fsu.cs.goodtiming.MyContentProvider;
 import edu.fsu.cs.goodtiming.R;
 

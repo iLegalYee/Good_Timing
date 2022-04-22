@@ -1,6 +1,5 @@
 package edu.fsu.cs.goodtiming.Utils;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;

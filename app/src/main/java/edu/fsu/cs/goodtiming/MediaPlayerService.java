@@ -1,30 +1,16 @@
 package edu.fsu.cs.goodtiming;
 
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.IBinder;
-import android.os.Message;
-import android.os.Messenger;
-import android.os.Handler;
-
-import android.provider.MediaStore;
 import android.widget.Toast;
 
 public class MediaPlayerService extends Service implements  MediaPlayer.OnCompletionListener, MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener,
         MediaPlayer.OnSeekCompleteListener, MediaPlayer.OnInfoListener, MediaPlayer.OnBufferingUpdateListener{
 
-
     private static final int NOTIFICATION_ID_PLAYING = 10;
-
     static private MediaPlayer player;
-
-
-
 
     public MediaPlayerService() {
     }
@@ -34,7 +20,6 @@ public class MediaPlayerService extends Service implements  MediaPlayer.OnComple
 
         return null;
     }
-
 
     @Override
     public void onCreate() {
@@ -48,7 +33,6 @@ public class MediaPlayerService extends Service implements  MediaPlayer.OnComple
         player.setOnBufferingUpdateListener(this);
 
     }
-
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {

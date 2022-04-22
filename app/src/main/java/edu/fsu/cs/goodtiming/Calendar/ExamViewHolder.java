@@ -2,9 +2,7 @@ package edu.fsu.cs.goodtiming.Calendar;
 
 import android.view.View;
 import android.widget.TextView;
-
 import androidx.recyclerview.widget.RecyclerView;
-
 import edu.fsu.cs.goodtiming.R;
 
 // Holds the information for each selection in the recycler view shown in the show day fragment

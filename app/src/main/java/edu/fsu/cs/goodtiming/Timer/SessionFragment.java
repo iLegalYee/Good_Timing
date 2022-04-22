@@ -28,21 +28,15 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 import edu.fsu.cs.goodtiming.MyContentProvider;
-
-
 import edu.fsu.cs.goodtiming.MediaPlayerService;
 import edu.fsu.cs.goodtiming.R;
-import edu.fsu.cs.goodtiming.Timer.BreakDialog;
 import edu.fsu.cs.goodtiming.Utils.NewEventFragment;
-import edu.fsu.cs.goodtiming.Utils.Todomain;
-import edu.fsu.cs.goodtiming.Calendar.CalendarFragment;
+
 
 public class SessionFragment extends Fragment {
     public static final String CHANNEL_TIMER = "channelTimer";
@@ -78,8 +72,6 @@ public class SessionFragment extends Fragment {
             NotificationManager manager = getActivity().getSystemService(NotificationManager.class);
             manager.createNotificationChannel(channel);
         }
-
-
     }
 
     @Override
@@ -244,6 +236,7 @@ public class SessionFragment extends Fragment {
                 btnBreak.setVisibility(View.INVISIBLE);
                 callNotification();
 
+                // Send how much time passed to the content provider - Will be used in analytics
                 ContentValues values = new ContentValues();
                 SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
                 String date = format.format(Calendar.getInstance().getTime());

@@ -1,23 +1,18 @@
 package edu.fsu.cs.goodtiming.Calendar;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-
 import edu.fsu.cs.goodtiming.R;
 import edu.fsu.cs.goodtiming.Utils.NewEventFragment;
-import edu.fsu.cs.goodtiming.Utils.Todomain;
 
 // This fragment is for the main calendar tab and it nests child fragments within it
 public class CalendarFragment extends Fragment {

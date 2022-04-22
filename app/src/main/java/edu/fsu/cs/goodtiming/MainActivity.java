@@ -7,26 +7,22 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.provider.CalendarContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-
 import java.util.Calendar;
-
 import edu.fsu.cs.goodtiming.Calendar.CalendarFragment;
 import edu.fsu.cs.goodtiming.Timer.SessionFragment;
 import edu.fsu.cs.goodtiming.User.UserFragment;
 import edu.fsu.cs.goodtiming.Utils.NewEventFragment;
 import edu.fsu.cs.goodtiming.Utils.Todomain;
 
-// TODO: Makes sure to reset all notifications scheduled when booting up phone
+
 public class MainActivity extends AppCompatActivity implements
         EventFragment.OnEventFragmentInteractionListener,
         SessionFragment.OnSessionFragmentInteractionListener,
@@ -48,9 +44,7 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setTheme(R.style.Light_Theme);
         setContentView(R.layout.activity_main);
-
 
         RequestPermission(Manifest.permission.READ_CALENDAR);
         RequestPermission(Manifest.permission.WRITE_CALENDAR);

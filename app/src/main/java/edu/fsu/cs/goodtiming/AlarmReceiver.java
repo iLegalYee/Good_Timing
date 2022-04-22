@@ -3,18 +3,14 @@ package edu.fsu.cs.goodtiming;
 import static android.content.Context.NOTIFICATION_SERVICE;
 
 import android.app.Notification;
-import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-
-import androidx.core.app.NotificationCompat;
 
 // This is meant to send out a notification whenever a broadcast is caught by it
 public class AlarmReceiver extends BroadcastReceiver {

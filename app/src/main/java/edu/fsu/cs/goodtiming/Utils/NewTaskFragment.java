@@ -1,13 +1,10 @@
 package edu.fsu.cs.goodtiming.Utils;
 
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import edu.fsu.cs.goodtiming.R;
 
 

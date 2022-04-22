@@ -6,13 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-
 import java.util.Locale;
-
 import edu.fsu.cs.goodtiming.R;
 
 
@@ -29,8 +26,6 @@ public class BreakDialog extends DialogFragment {
         setStyle(STYLE_NO_TITLE, 0);
     }
 
-
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -44,6 +39,7 @@ public class BreakDialog extends DialogFragment {
         return rootView;
     }
 
+    // Starts the Timer on the Session fragment
     private void startTimer(){
         countDownTimer = new CountDownTimer(timeLeftInMillis, 1000) {
             @Override
@@ -60,6 +56,7 @@ public class BreakDialog extends DialogFragment {
         timerRunning = true;
     }
 
+    // Update the text on the timer
     private void updateCountDownText(){
         int minutes = (int)(timeLeftInMillis/1000)/60;
         int seconds = (int)(timeLeftInMillis/1000)%60;
