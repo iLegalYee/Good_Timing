@@ -284,14 +284,6 @@ public class SessionFragment extends Fragment {
         btnSet.setVisibility(View.VISIBLE);
     }
 
-    private void updateCountDownText(){
-        int hours = (int)(timeLeftInMillis/1000)/3600;
-        int minutes = (int)(timeLeftInMillis/1000)/60;
-        int seconds = (int)(timeLeftInMillis/1000)%60;
-        String timeLeftFormatted = String.format(Locale.getDefault(),"%02d:%02d:%02d",hours, minutes,seconds);
-        textViewTime.setText(timeLeftFormatted);
-    }
-
     private void updatetimer2(){
         @SuppressLint("DefaultLocale") String hms = String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(timeLeftInMillis),
                 TimeUnit.MILLISECONDS.toMinutes(timeLeftInMillis) % TimeUnit.HOURS.toMinutes(1),
