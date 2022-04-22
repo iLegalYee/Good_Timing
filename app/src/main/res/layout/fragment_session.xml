@@ -7,15 +7,51 @@
 
     <!-- TODO: Update blank fragment layout -->
 
-    <TextView
-
+    <EditText
+        android:id="@+id/edittextHrs"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/textviewCountDown"
+        android:layout_above="@+id/btnSet"
+        android:layout_toLeftOf="@+id/edittextMins"
         android:layout_gravity="center"
         android:layout_marginStart="20dp"
-        android:text="Title"
+        android:hint="Hrs"
+        android:inputType="number"
         android:textSize="30sp" />
+    <EditText
+        android:id="@+id/edittextMins"
+        android:hint="Mins"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btnSet"
+        android:layout_gravity="center"
+        android:inputType="number"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="20dp"
+        android:textSize="30sp" />
+
+
+    <EditText
+        android:id="@+id/edittextSecs"
+        android:hint="Secs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/edittextMins"
+        android:layout_above="@+id/btnSet"
+        android:layout_gravity="center"
+        android:layout_marginStart="20dp"
+        android:inputType="number"
+        android:textSize="30sp" />
+
+    <Button
+        android:id="@+id/btnSet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/textviewCountDown"
+        android:text="SET" />
+
 
     <TextView
         android:id="@+id/textviewCountDown"

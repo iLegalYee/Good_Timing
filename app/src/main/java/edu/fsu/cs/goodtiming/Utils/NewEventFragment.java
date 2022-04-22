@@ -3,6 +3,9 @@ package edu.fsu.cs.goodtiming.Utils;
 import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 
 import android.app.DatePickerDialog;
+import android.content.ContentValues;
+import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -17,14 +20,20 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
+import edu.fsu.cs.goodtiming.Calendar.CalendarFragment;
 import edu.fsu.cs.goodtiming.EventFragment;
+import edu.fsu.cs.goodtiming.MainActivity;
+import edu.fsu.cs.goodtiming.MyContentProvider;
 import edu.fsu.cs.goodtiming.R;
 
 
 public class NewEventFragment extends Fragment implements DatePickerDialog.OnDateSetListener {
 
+    private OnNewEventFragmentInteractionListener mListener;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -169,6 +178,7 @@ public class NewEventFragment extends Fragment implements DatePickerDialog.OnDat
         btnDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.d("Inside newevent", "Entering btndone listener");
 
                 if (etname.length()==0)
                 {
@@ -181,6 +191,22 @@ public class NewEventFragment extends Fragment implements DatePickerDialog.OnDat
                     ettime.setError("Please enter a time");
                 }
 
+                ContentValues values = new ContentValues();
+                values.put(MyContentProvider.COLUMN_EVENTS_NAME, etname.getText().toString());
+                SimpleDateFormat sdp = new SimpleDateFormat("dd/MM/yyyyHH:mm");
+                Calendar calendar = Calendar.getInstance();
+                try {
+                    calendar.setTime(sdp.parse(etdate.getText().toString() + ettime.getText().toString()));
+                    values.put(MyContentProvider.COLUMN_EVENTS_TIME, Long.toString(calendar.getTimeInMillis()));
+                } catch (java.text.ParseException e) {
+                    e.printStackTrace();
+                    Log.d("Inside NewEvent", "Error parsing date");
+                }
+                Log.d("Inside newevent", "Should be inserting event");
+                Uri uri = getActivity().getContentResolver().insert(MyContentProvider.EVENTS_CONTENT_URI, values);
+                int id = Integer.parseInt(uri.toString().substring(uri.toString().lastIndexOf("/") + 1));
+                mListener.SetTimedNotification(id);
+                Log.d("Inside newevent", "id is " + id);
             }
 
         });
@@ -250,6 +276,29 @@ public class NewEventFragment extends Fragment implements DatePickerDialog.OnDat
 
 
         return rootView;
+    }
+
+    // Initializes mListener
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof NewEventFragment.OnNewEventFragmentInteractionListener) {
+            mListener = (NewEventFragment.OnNewEventFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnRegisterFragmentInteractionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+
+    public interface OnNewEventFragmentInteractionListener {
+        void SetTimedNotification(int id);
     }
 
 

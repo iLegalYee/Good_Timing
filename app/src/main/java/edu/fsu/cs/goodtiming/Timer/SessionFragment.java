@@ -1,8 +1,11 @@
 package edu.fsu.cs.goodtiming.Timer;
 
 import android.annotation.SuppressLint;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.core.app.NotificationCompat;
@@ -12,13 +15,16 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.os.CountDownTimer;
 import android.provider.Settings;
+import android.text.InputFilter;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,7 +42,7 @@ public class SessionFragment extends Fragment {
     public static final String CHANNEL_TIMER = "channelTimer";
     private OnSessionFragmentInteractionListener mListener;
     private Bundle mBundle;
-    private static final long START_TIME_IN_MILLIS = 6000;
+    private long START_TIME_IN_MILLIS;
     private TextView textViewTime;
     private Button btnStartPause;
     private Button btnReset;
@@ -48,6 +54,8 @@ public class SessionFragment extends Fragment {
     private ImageButton btnStop;
     private boolean musicPlaying;
     private Intent serviceIntent;
+    private Button btnSet;
+    private EditText editTextHrs, editTextMins, editTextSecs;
 
 
 
@@ -64,6 +72,11 @@ public class SessionFragment extends Fragment {
         setHasOptionsMenu(true);
         super.onCreate(savedInstanceState);
         mBundle = getArguments();
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
+            NotificationChannel channel = new NotificationChannel("NotificationTimer", "NotificationTimer", NotificationManager.IMPORTANCE_HIGH);
+            NotificationManager manager = getActivity().getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(channel);
+        }
 
 
     }
@@ -81,6 +94,45 @@ public class SessionFragment extends Fragment {
         btnReset = rootView.findViewById(R.id.btnReset);
         btnBreak = rootView.findViewById(R.id.btnBreak);
         btnPlay = rootView.findViewById(R.id.btnPlay);
+        editTextHrs = rootView.findViewById(R.id.edittextHrs);
+        editTextMins = rootView.findViewById(R.id.edittextMins);
+        editTextSecs = rootView.findViewById(R.id.edittextSecs);
+        editTextHrs.setFilters(new InputFilter[]{new InputFilterMinMax(1,72)});
+        editTextMins.setFilters(new InputFilter[]{new InputFilterMinMax(1,60)});
+        editTextSecs.setFilters(new InputFilter[]{new InputFilterMinMax(1,60)});
+        btnSet = rootView.findViewById(R.id.btnSet);
+
+        btnSet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String inputHrs = editTextHrs.getText().toString();
+                String inputMins = editTextMins.getText().toString();
+                String inputSecs = editTextSecs.getText().toString();
+                if(inputHrs.length() == 0 && inputMins.length() == 0 && inputSecs.length() ==0 ){
+                    Toast.makeText(getActivity(), "Fields can not be empty",Toast.LENGTH_LONG).show();
+                    return;
+                }
+                if((inputHrs.length() == 0) ){
+                    inputHrs = "0";
+                }
+                if ((inputMins.length() == 0) ) {
+                    inputMins = "0";
+                }
+                if (inputSecs.length() == 0){
+                    inputSecs = "0";
+                }
+            long millisInput = (Long.parseLong(inputHrs)*3600000) + (Long.parseLong(inputMins)*60000) + (Long.parseLong(inputSecs)*1000);
+                if(millisInput == 0 ){
+                    Toast.makeText(getActivity(), "ERROR",Toast.LENGTH_LONG).show();
+                    return;
+                }
+                setTime(millisInput);
+                editTextHrs.setText("");
+                editTextMins.setText("");
+                editTextSecs.setText("");
+            }
+        });
+
         
 
         serviceIntent = new Intent(getActivity(), MediaPlayerService.class);
@@ -181,7 +233,7 @@ public class SessionFragment extends Fragment {
     }
 
     private void startTimer(){
-        countDownTimer = new CountDownTimer(timeLeftInMillis, 1000) {
+        countDownTimer = new CountDownTimer(timeLeftInMillis, 200) {
             @Override
             public void onTick(long millisUntilFinished) {
                     timeLeftInMillis = millisUntilFinished;
@@ -202,10 +254,21 @@ public class SessionFragment extends Fragment {
         }.start();
         timerRunning = true;
         btnStartPause.setText("Pause");
+        btnSet.setVisibility(View.INVISIBLE);
+        editTextSecs.setVisibility(View.INVISIBLE);
+        editTextMins.setVisibility(View.INVISIBLE);
+        editTextHrs.setVisibility(View.INVISIBLE);
         btnReset.setVisibility(View.INVISIBLE);
         btnBreak.setVisibility(View.VISIBLE);
 
     }
+
+    private void setTime(long milliseconds){
+        START_TIME_IN_MILLIS = milliseconds;
+        resetTimer();
+        closeKeyboard();
+    }
+
     private void pauseTimer(){
         countDownTimer.cancel();
         timerRunning=false;
@@ -220,6 +283,10 @@ public class SessionFragment extends Fragment {
         btnReset.setVisibility(View.INVISIBLE);
         btnBreak.setVisibility(View.INVISIBLE);
         btnStartPause.setVisibility(View.VISIBLE);
+        editTextSecs.setVisibility(View.VISIBLE);
+        editTextMins.setVisibility(View.VISIBLE);
+        editTextHrs.setVisibility(View.VISIBLE);
+        btnSet.setVisibility(View.VISIBLE);
     }
 
     private void updateCountDownText(){
@@ -237,6 +304,14 @@ public class SessionFragment extends Fragment {
         textViewTime.setText(hms);
     }
 
+    private void closeKeyboard(){
+        View view = getActivity().getCurrentFocus();
+        if(view != null){
+            InputMethodManager inputMethodManager = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(),0);
+        }
+    }
+
     private void callNotification(){
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getActivity(), "NotificationTimer");
         @SuppressLint("DefaultLocale") String hms = String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(timeLeftInMillis),
@@ -244,11 +319,12 @@ public class SessionFragment extends Fragment {
                 TimeUnit.MILLISECONDS.toSeconds(timeLeftInMillis) % TimeUnit.MINUTES.toSeconds(1));
         textViewTime.setText(hms);
         builder.setContentTitle("Timer");
-        builder.setContentText("Event" + hms);
+        builder.setContentText(hms);
         builder.setSmallIcon(R.drawable.ic_time);
         builder.setAutoCancel(true);
-       if (hms.equals("00:00:01")){
+      if (hms.equals("00:00:00")){
             builder.setSound(Settings.System.DEFAULT_NOTIFICATION_URI);
+            //builder.setVibrate(new long[]{1000,1000,1000});
         }
 
         NotificationManagerCompat managerCompat = NotificationManagerCompat.from(getActivity());
